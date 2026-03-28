@@ -1,19 +1,20 @@
 /* COMPLETE REDESIGN - Modern Bold Website Styles */
 
 :root {
-  --primary: #667eea;
-  --primary-dark: #5568d3;
-  --secondary: #764ba2;
-  --accent: #f093fb;
-  --text-dark: #0f172a;
-  --text-medium: #475569;
-  --text-light: #64748b;
+  --primary: #c9422b;
+  --primary-dark: #a83520;
+  --secondary: #1a2e5c;
+  --accent: #d4a82b;
+  --accent-teal: #1a6e6e;
+  --text-dark: #0d0d0d;
+  --text-medium: #4a4a4a;
+  --text-light: #999999;
   --bg-white: #ffffff;
-  --bg-light: #f8fafc;
-  --bg-gray: #f1f5f9;
-  --border: #e2e8f0;
-  --success: #10b981;
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --bg-light: #faf9f6;
+  --bg-gray: #f5f3ee;
+  --border: rgba(0, 0, 0, 0.08);
+  --success: #1a6e6e;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
@@ -191,7 +192,7 @@ body {
 .hero-new {
   position: relative;
   padding: 120px 0 100px;
-  background: linear-gradient(135deg, #fef3c7 0%, #ddd6fe 50%, #ffffff 100%);
+  background: linear-gradient(135deg, #fdf6ec 0%, #faf4ee 50%, #faf9f6 100%);
   overflow: hidden;
 }
 
@@ -277,7 +278,7 @@ body {
 
 .btn-hero-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 25px 30px -5px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 25px 30px -5px rgba(201, 66, 43, 0.35);
 }
 
 .btn-hero-secondary {

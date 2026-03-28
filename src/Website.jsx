@@ -5,61 +5,28 @@ import './Website.css'
 const WebsiteHeader = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const navigate = useNavigate()
-  
+
   return (
     <header className="website-header">
       <div className="website-container">
         <NavLink to="/" className="website-logo">
           <div className="logo-icon">F</div>
-          <span>BiggFam</span>
+          <span>FamilyOS</span>
         </NavLink>
-        
+
         <nav className={`website-nav ${mobileMenuOpen ? 'open' : ''}`}>
-          <NavLink 
-            to="/" 
-            end 
-            className={({ isActive }) => `website-nav-link ${isActive ? 'active' : ''}`}
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Home
-          </NavLink>
-          <NavLink 
-            to="/product" 
-            className={({ isActive }) => `website-nav-link ${isActive ? 'active' : ''}`}
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Product
-          </NavLink>
-          <NavLink 
-            to="/about" 
-            className={({ isActive }) => `website-nav-link ${isActive ? 'active' : ''}`}
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            About
-          </NavLink>
-          <NavLink 
-            to="/pricing" 
-            className={({ isActive }) => `website-nav-link ${isActive ? 'active' : ''}`}
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Pricing
-          </NavLink>
-          <NavLink 
-            to="/contact" 
-            className={({ isActive }) => `website-nav-link ${isActive ? 'active' : ''}`}
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Contact
-          </NavLink>
+          <NavLink to="/" end className={({ isActive }) => `website-nav-link ${isActive ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Home</NavLink>
+          <NavLink to="/product" className={({ isActive }) => `website-nav-link ${isActive ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Product</NavLink>
+          <NavLink to="/about" className={({ isActive }) => `website-nav-link ${isActive ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>About</NavLink>
+          <NavLink to="/pricing" className={({ isActive }) => `website-nav-link ${isActive ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Pricing</NavLink>
+          <NavLink to="/contact" className={({ isActive }) => `website-nav-link ${isActive ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Contact</NavLink>
         </nav>
-        
+
         <div className="website-actions">
           <button className="btn-secondary" onClick={() => navigate('/auth')}>Sign In</button>
           <button className="btn-primary" onClick={() => navigate('/auth')}>Get Started</button>
           <button className="mobile-menu-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-            <span></span>
-            <span></span>
-            <span></span>
+            <span></span><span></span><span></span>
           </button>
         </div>
       </div>
@@ -67,56 +34,53 @@ const WebsiteHeader = () => {
   )
 }
 
-const WebsiteFooter = () => {
-  return (
-    <footer className="website-footer">
-      <div className="website-container">
-        <div className="footer-main">
-          <div className="footer-brand">
-            <div className="footer-logo">
-              <div className="logo-icon">F</div>
-              <span>BiggFam</span>
-            </div>
-            <p>The operating system for legendary families</p>
+const WebsiteFooter = () => (
+  <footer className="website-footer">
+    <div className="website-container">
+      <div className="footer-main">
+        <div className="footer-brand">
+          <div className="footer-logo">
+            <div className="logo-icon">F</div>
+            <span>FamilyOS</span>
           </div>
-          
-          <div className="footer-links-grid">
-            <div className="footer-links-col">
-            <h4>Product</h4>
-              <NavLink to="/product">Features</NavLink>
-              <NavLink to="/pricing">Pricing</NavLink>
-              <a href="#security">Security</a>
-          </div>
-            <div className="footer-links-col">
-            <h4>Company</h4>
-              <NavLink to="/about">About</NavLink>
-              <NavLink to="/contact">Contact</NavLink>
-              <a href="#careers">Careers</a>
-          </div>
-            <div className="footer-links-col">
-            <h4>Resources</h4>
-              <a href="#docs">Documentation</a>
-              <a href="#help">Help Center</a>
-              <a href="#community">Community</a>
-            </div>
-          </div>
+          <p>The operating system for 300 million Indian families</p>
         </div>
-        
-        <div className="footer-bottom">
-          <p>&copy; 2025 BiggFam. All rights reserved.</p>
-          <div className="footer-legal">
-            <a href="#privacy">Privacy</a>
-            <a href="#terms">Terms</a>
+        <div className="footer-links-grid">
+          <div className="footer-links-col">
+            <h4>Product</h4>
+            <NavLink to="/product">Features</NavLink>
+            <NavLink to="/pricing">Pricing</NavLink>
+            <a href="#security">Privacy & Security</a>
+          </div>
+          <div className="footer-links-col">
+            <h4>Company</h4>
+            <NavLink to="/about">About</NavLink>
+            <NavLink to="/contact">Contact</NavLink>
+            <a href="#careers">Careers</a>
+          </div>
+          <div className="footer-links-col">
+            <h4>Support</h4>
+            <a href="#help">Help Center</a>
+            <a href="#community">Community</a>
+            <a href="#whatsapp">WhatsApp Support</a>
           </div>
         </div>
       </div>
-    </footer>
-  )
-}
+      <div className="footer-bottom">
+        <p>&copy; 2025 FamilyOS India. All rights reserved.</p>
+        <div className="footer-legal">
+          <a href="#privacy">Privacy</a>
+          <a href="#terms">Terms</a>
+          <a href="#dpdp">DPDP Compliance</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+)
 
 const HomePage = () => {
   const navigate = useNavigate()
-  
+
   return (
     <div className="website-page">
       <section className="hero-new">
@@ -124,39 +88,38 @@ const HomePage = () => {
         <div className="website-container">
           <div className="hero-content-new">
             <div className="hero-badge-new">
-              <span>✨</span>
-              <span>Launching in 2027 - Join the waitlist</span>
+              <span>🇮🇳</span>
+              <span>Built in India, for India — Join the Early Access</span>
             </div>
             <h1 className="hero-title-new">
-              Build a <span className="highlight">Legendary Family</span><br/>
-              That Lasts Generations
+              The Operating System for <span className="highlight">Indian Families</span>
             </h1>
             <p className="hero-desc-new">
-              The only platform designed to help families communicate better, build generational wealth, and preserve their legacy for 100+ years.
+              One app for your entire family — joint calendar, shared expenses, health records, kids' education, memories, and an AI advisor who speaks your language. Built for the joint family, the WhatsApp group, and every generation in between.
             </p>
             <div className="hero-cta-new">
               <button className="btn-hero-primary" onClick={() => navigate('/auth')}>
-                Start Free Today
+                Join Early Access — Free
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                   <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
               </button>
               <button className="btn-hero-secondary" onClick={() => navigate('/product')}>
-                See How It Works
+                See All Features
               </button>
             </div>
             <div className="hero-stats-new">
               <div className="stat-item">
-                <div className="stat-value">2027</div>
-                <div className="stat-label">Launch Year</div>
+                <div className="stat-value">300M+</div>
+                <div className="stat-label">Indian Families</div>
               </div>
               <div className="stat-item">
-                <div className="stat-value">7</div>
-                <div className="stat-label">Core Modules</div>
+                <div className="stat-value">₹2.1T</div>
+                <div className="stat-label">Addressable Market</div>
               </div>
               <div className="stat-item">
-                <div className="stat-value">100+</div>
-                <div className="stat-label">Years Legacy</div>
+                <div className="stat-value">Zero</div>
+                <div className="stat-label">Real Competitors</div>
               </div>
             </div>
           </div>
@@ -167,23 +130,23 @@ const HomePage = () => {
         <div className="website-container">
           <div className="section-intro-new">
             <h2>The Problem</h2>
-            <p>Families are falling apart. Here's why:</p>
-                  </div>
+            <p>Every Indian family runs on chaos. Here's the data:</p>
+          </div>
           <div className="problem-cards-new">
             <div className="problem-card-new">
-              <div className="problem-number-new">70%</div>
-              <h3>Wealth Lost</h3>
-              <p>Generational wealth disappears by the 2nd generation</p>
-                </div>
+              <div className="problem-number-new">50.5%</div>
+              <h3>Family is Why Indians Go Online</h3>
+              <p>Staying connected with family is the #1 reason Indians use the internet — yet no app is built for it</p>
+            </div>
             <div className="problem-card-new">
-              <div className="problem-number-new">67%</div>
-              <h3>Communication Breakdown</h3>
-              <p>Poor communication is the #1 family issue</p>
-                  </div>
+              <div className="problem-number-new">6–25</div>
+              <h3>People in One Indian Family</h3>
+              <p>Joint families share kitchens, budgets, and WhatsApp chaos — but no shared digital infrastructure</p>
+            </div>
             <div className="problem-card-new">
-              <div className="problem-number-new">90%</div>
-              <h3>Wisdom Lost</h3>
-              <p>Family wisdom dies with elders—never documented</p>
+              <div className="problem-number-new">0</div>
+              <h3>Indian-First Family Apps</h3>
+              <p>BiggFam, Cozi, FamilyWall — all US-built, nuclear-family-first, English-only, India-blind</p>
             </div>
           </div>
         </div>
@@ -192,51 +155,51 @@ const HomePage = () => {
       <section className="solution-section-new">
         <div className="website-container">
           <div className="section-intro-new">
-            <h2>The Complete Platform</h2>
-            <p>Seven powerful modules working together to transform your family</p>
+            <h2>The Complete FamilyOS Platform</h2>
+            <p>Seven layers, each independently valuable, compounding as a system</p>
           </div>
           <div className="solution-grid-new">
             <div className="solution-card-new">
-              <div className="solution-icon-new">💬</div>
-              <h3>FamilyHub</h3>
-              <p className="solution-tagline">Communication That Actually Works</p>
-              <p className="solution-description">Shared family board with threaded conversations. AI-powered emotional translation. Weekly sync auto-generation. Conflict-free templates. Mood check-ins with AI analysis. Automated reminders for birthdays, appointments, and promises.</p>
+              <div className="solution-icon-new">📅</div>
+              <h3>Saath Mein — Family Calendar</h3>
+              <p className="solution-tagline">The family timetable, finally shared</p>
+              <p className="solution-description">Shared calendar for all members. Smart event detection from WhatsApp. Auto-reminders for school exams, doctor visits, festival dates, EMI due dates. Grandparent-friendly large-font view in their language.</p>
             </div>
             <div className="solution-card-new">
-              <div className="solution-icon-new">💰</div>
-              <h3>Wealth HQ</h3>
-              <p className="solution-tagline">Complete Financial Picture</p>
-              <p className="solution-description">Track real estate, investments, insurance. Estate planning dashboard. Generational wealth playbooks. Goal tracking & optimization. "What if" contingency protocols. Save $50K+ in financial advisor fees.</p>
+              <div className="solution-icon-new">💸</div>
+              <h3>Ghar Ka Hisaab — Family Wallet</h3>
+              <p className="solution-tagline">Splitwise for the whole family</p>
+              <p className="solution-description">Joint expense tracking — who paid what, who owes whom. Monthly family budget with category split. UPI-linked (Paytm, PhonePe, BHIM). Settlement reminders. Emotionally designed, not just transactional.</p>
+            </div>
+            <div className="solution-card-new">
+              <div className="solution-icon-new">📸</div>
+              <h3>Yaadein — Memory Vault</h3>
+              <p className="solution-tagline">Memories without WhatsApp compression</p>
+              <p className="solution-description">Private family photo and video album. AI-organized by event, person, and year. Auto-creates annual family photobook. The emotional anchor — once memories are here, no family leaves.</p>
+            </div>
+            <div className="solution-card-new">
+              <div className="solution-icon-new">🔔</div>
+              <h3>Bulletin — Family Noticeboard</h3>
+              <p className="solution-tagline">The family group chat, but structured</p>
+              <p className="solution-description">Family-wide announcements, polls, grocery lists, tasks, and reminders. Pin important messages. Assign tasks with deadlines. No more "who was supposed to book the train?"</p>
+            </div>
+            <div className="solution-card-new">
+              <div className="solution-icon-new">🎓</div>
+              <h3>Padhai Portal — Kids' Education</h3>
+              <p className="solution-tagline">Every exam, every mark, one place</p>
+              <p className="solution-description">School schedule, exam timetable, marks tracker, homework reminders. Parent-teacher communication log. Syllabus-aligned AI (CBSE, ICSE, state boards). Links to Byju's and Unacademy for gap areas.</p>
             </div>
             <div className="solution-card-new">
               <div className="solution-icon-new">🏥</div>
-              <h3>CareOS</h3>
-              <p className="solution-tagline">Health Coordination Made Easy</p>
-              <p className="solution-description">Aging parent healthcare dashboard. Medication schedules & adherence tracking. Child development milestones. Emergency protocols & safety network. Mental health signals monitoring. Reduce missed appointments by 90%.</p>
-            </div>
-            <div className="solution-card-new">
-              <div className="solution-icon-new">🎭</div>
-              <h3>Rituals & Culture</h3>
-              <p className="solution-tagline">Build Family Identity</p>
-              <p className="solution-description">Weekly routines tracking with streak counters. Festival and celebration automation. Family traditions documentation. Values, principles, codes definition. Photo & memory timeline. Ritual impact measurement.</p>
-            </div>
-            <div className="solution-card-new">
-              <div className="solution-icon-new">📋</div>
-              <h3>Planning</h3>
-              <p className="solution-tagline">Structured Decision Making</p>
-              <p className="solution-description">Decision frameworks for big family choices. Marriage, home, career planning tools. Education roadmaps. Retirement simulation. 10-year family vision planning. Reduce decision fatigue by 85%.</p>
-            </div>
-            <div className="solution-card-new">
-              <div className="solution-icon-new">🏛️</div>
-              <h3>Legacy Vault</h3>
-              <p className="solution-tagline">Preserve for Generations</p>
-              <p className="solution-description">Time-locked letters to future generations. Wisdom library and family stories archive. Asset instructions and genealogy tracking. Health history vault. Interactive family tree. Ensure legacy survives 100+ years.</p>
+              <h3>Sehat — Family Health Vault</h3>
+              <p className="solution-tagline">India's first true family health OS</p>
+              <p className="solution-description">Centralized medical records for all members. Prescription reminders. Vaccination tracker. Elderly medication schedule with voice alerts. Doctor appointment booking. Lab report storage.</p>
             </div>
             <div className="solution-card-new featured">
               <div className="solution-icon-new">🤖</div>
-              <h3>AI Family Mind</h3>
-              <p className="solution-tagline">Your Chief Family Officer</p>
-              <p className="solution-description">Learns communication patterns & triggers. Financial decision history analysis. Emotional rhythms tracking. Predictive planning and optimization. Conflict mediation and translation. Save 15 hours/week on coordination.</p>
+              <h3>"Dadi" — AI Family Advisor</h3>
+              <p className="solution-tagline">The AI elder everyone wishes they had</p>
+              <p className="solution-description">A family-trained AI that knows your entire context — schedules, budgets, health, goals. Proactively surfaces insights: "Arjun's maths exam is in 3 days — who picks him up?" Speaks in your family's language.</p>
             </div>
           </div>
         </div>
@@ -245,31 +208,31 @@ const HomePage = () => {
       <section className="testimonials-section-new">
         <div className="website-container">
           <div className="section-intro-new">
-            <h2>What Families Say</h2>
+            <h2>What Indian Families Say</h2>
           </div>
           <div className="testimonials-new">
             <div className="testimonial-new">
               <div className="testimonial-rating-new">★★★★★</div>
-              <p>"BiggFam saved our family. We went from fighting every week to actually understanding each other."</p>
+              <p>"Finally an app that understands how our joint family actually works. Ghar Ka Hisaab saved us from so many awkward money conversations."</p>
               <div className="testimonial-author-new">
-                <strong>Sarah M.</strong>
-                <span>Mother of 2</span>
+                <strong>Priya S.</strong>
+                <span>Working Mother, Bengaluru</span>
               </div>
             </div>
             <div className="testimonial-new">
               <div className="testimonial-rating-new">★★★★★</div>
-              <p>"We've documented 50 years of family stories. My kids will know their great-grandparents."</p>
+              <p>"Mere haath mein poore ghar ka hisaab. Saath Mein calendar se festival planning bahut aasaan ho gayi."</p>
               <div className="testimonial-author-new">
-                <strong>David L.</strong>
-                <span>Father of 3</span>
+                <strong>Rameshbhai P.</strong>
+                <span>Family Head, Ahmedabad</span>
               </div>
             </div>
             <div className="testimonial-new">
               <div className="testimonial-rating-new">★★★★★</div>
-              <p>"Tracking our wealth went from spreadsheet chaos to crystal clarity."</p>
+              <p>"Yaadein is so beautiful. Our family photos are finally organized — not buried in 14 WhatsApp groups."</p>
               <div className="testimonial-author-new">
-                <strong>Jennifer K.</strong>
-                <span>Entrepreneur</span>
+                <strong>Kavya M.</strong>
+                <span>NRI, Dubai</span>
               </div>
             </div>
           </div>
@@ -279,18 +242,18 @@ const HomePage = () => {
       <section className="cta-section-new">
         <div className="website-container">
           <div className="cta-content-new">
-            <h2>Start Building Your Legendary Family Today</h2>
-            <p>Launching in 2027. Join the waitlist now. Free forever plan. No credit card required.</p>
+            <h2>Your Family Deserves Better Than a WhatsApp Group</h2>
+            <p>Early access is free. Join thousands of Indian families already on the waitlist.</p>
             <button className="btn-cta-primary" onClick={() => navigate('/auth')}>
-              Get Started Free
+              Get Early Access — Free
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
               </svg>
             </button>
             <div className="cta-benefits-new">
-              <span>✓ 2 minute setup</span>
-              <span>✓ Cancel anytime</span>
-              <span>✓ Your data stays yours</span>
+              <span>✓ No credit card needed</span>
+              <span>✓ Works on ₹5K Android phones</span>
+              <span>✓ DPDP-compliant privacy</span>
             </div>
           </div>
         </div>
@@ -301,114 +264,128 @@ const HomePage = () => {
 
 const ProductPage = () => {
   const navigate = useNavigate()
-  
+
   const features = [
     {
-      icon: '💬',
-      title: 'FamilyHub',
-      tagline: 'Communication That Actually Works',
-      description: 'Stop miscommunication before it starts. AI-powered emotional translation, weekly syncs, and conflict-free templates.',
+      icon: '📅',
+      title: 'Saath Mein — Family Calendar',
+      tagline: 'The family timetable, finally shared',
+      description: 'Shared calendar synced across all family members — from Dadi to the youngest. Smart event detection from WhatsApp messages.',
       bullets: [
-        'Shared family board with threaded conversations',
-        'Weekly sync auto-generation',
-        'Conflict-free conversation templates',
-        'Mood check-ins with AI emotional analysis',
-        'AI translator for emotional language',
-        'Automated reminders for birthdays, appointments, promises'
+        'Shared calendar across all members (no invite chaos)',
+        'Auto-detects events from WhatsApp messages',
+        'Reminders: school exams, doctor visits, festival dates, EMIs',
+        'Grandparent-friendly large-font view',
+        'Vernacular support: Hindi, Tamil, Telugu, Bengali',
+        'Festival calendar pre-loaded (Diwali, Eid, Christmas, etc.)'
       ]
     },
     {
-      icon: '💰',
-      title: 'Wealth HQ',
-      tagline: 'Complete Financial Picture',
-      description: 'Track everything. Plan proactively. Break the generational wealth loss cycle.',
+      icon: '💸',
+      title: 'Ghar Ka Hisaab — Family Wallet',
+      tagline: 'Joint expense tracking, emotionally designed',
+      description: 'The Splitwise for families — but designed for the Indian joint family, where money is a shared, emotional topic.',
       bullets: [
-        'Real estate, investments, insurance tracking',
-        'Estate planning dashboard',
-        'Generational wealth playbooks',
-        'Goal tracking & optimization',
-        '"What if" contingency protocols',
-        'Save $50K+ in financial advisor fees'
+        'Joint expense tracking: who paid what, who owes whom',
+        'Monthly family budget with category split',
+        'UPI-linked (Paytm, PhonePe, BHIM, Google Pay)',
+        'Settlement reminders without awkwardness',
+        'Shared savings goals (Goa trip, daughter\'s wedding, new home)',
+        'Progress visualization with monthly family meeting nudge'
+      ]
+    },
+    {
+      icon: '📸',
+      title: 'Yaadein — Memory Vault',
+      tagline: 'Family memories without WhatsApp compression',
+      description: 'Private family photo and video album — organized, beautiful, and permanent. The emotional anchor of the platform.',
+      bullets: [
+        'AI-organized by event, person, and year',
+        'No cloud storage fees on base plan',
+        'Share moments without WhatsApp compression loss',
+        'Auto-creates annual family photobook (paid add-on)',
+        'Family tree linked to photos',
+        'Once memories are here, families never leave'
+      ]
+    },
+    {
+      icon: '🔔',
+      title: 'Bulletin — Family Noticeboard',
+      tagline: 'The family group chat, but structured',
+      description: 'Family-wide announcements, polls, grocery lists, tasks, and reminders. Everything the family WhatsApp group should have been.',
+      bullets: [
+        'Family-wide announcements and polls',
+        'Grocery lists and task assignment with deadlines',
+        'Pin important messages (no more scrolling)',
+        'No more "who was supposed to book the train?"',
+        'Role-based visibility (some things only parents see)',
+        'Works offline — syncs when back online'
+      ]
+    },
+    {
+      icon: '🎓',
+      title: 'Padhai Portal — Kids\' Education Hub',
+      tagline: 'Every exam, every mark, one dashboard',
+      description: 'School schedule, exam timetable, marks tracker, and parent-teacher logs — India board aware.',
+      bullets: [
+        'School schedule and exam timetable',
+        'Marks tracker and homework reminders',
+        'Parent-teacher communication log',
+        'Tuition fee tracker',
+        'Indian board-aware AI (CBSE, ICSE, state boards)',
+        'Links to Byju\'s, Unacademy for gap areas'
       ]
     },
     {
       icon: '🏥',
-      title: 'CareOS',
-      tagline: 'Health Coordination Made Easy',
-      description: 'Never miss an appointment. Track medications. Coordinate care for aging parents and kids.',
+      title: 'Sehat — Family Health Vault',
+      tagline: 'India\'s first true family health OS',
+      description: 'Centralized medical records for all members — from newborns to 80-year-old grandparents — with voice alerts for elders.',
       bullets: [
-        'Aging parent healthcare dashboard',
-        'Medication schedules & adherence',
-        'Child development tracking',
-        'Emergency protocols & safety network',
-        'Mental health signals',
-        'Reduce missed appointments by 90%'
-      ]
-    },
-    {
-      icon: '🎭',
-      title: 'Rituals & Culture',
-      tagline: 'Build Family Identity',
-      description: 'Document traditions. Track routines. Measure impact. Build a family culture that lasts.',
-      bullets: [
-        'Weekly routines tracking with streak counters',
-        'Festival and celebration automation',
-        'Family traditions documentation',
-        'Values, principles, codes definition',
-        'Photo & memory timeline',
-        'Ritual impact measurement'
+        'Centralized medical records for all family members',
+        'Prescription and medication reminders',
+        'Vaccination tracker for kids',
+        'Elderly medication schedule with voice alerts',
+        'Emergency contact card with blood type',
+        'Doctor appointment booking and lab report storage'
       ]
     },
     {
       icon: '📋',
-      title: 'Planning',
-      tagline: 'Structured Decision Making',
-      description: 'Make big family decisions with confidence. Use frameworks. Reduce decision fatigue.',
+      title: 'Kagaz — Family Documents',
+      tagline: 'Never lose an important document again',
+      description: 'Store Aadhaar, PAN, passports, property papers, insurance, and vehicle documents — with AI-powered expiry reminders.',
       bullets: [
-        'Decision frameworks for big family choices',
-        'Marriage, home, career planning',
-        'Education roadmaps',
-        'Retirement simulation',
-        '10-year family vision',
-        'Reduce decision fatigue by 85%'
-      ]
-    },
-    {
-      icon: '🏛️',
-      title: 'Legacy Vault',
-      tagline: 'Preserve for Generations',
-      description: 'Your family stories, wisdom, and values—preserved forever. Time-locked for future generations.',
-      bullets: [
-        'Time-locked letters to future generations',
-        'Wisdom library and family stories',
-        'Asset instructions and genealogy',
-        'Health history vault',
-        'Interactive family tree',
-        'Ensure legacy survives 100+ years'
+        'Store Aadhaar, PAN, passports, property papers',
+        'Insurance policies and vehicle documents',
+        'AI-powered expiry reminders',
+        'Share specific documents with specific members',
+        'Emergency access feature',
+        'End-to-end encrypted, DPDP-compliant'
       ]
     },
     {
       icon: '🤖',
-      title: 'AI Family Mind',
-      tagline: 'Your Chief Family Officer',
-      description: 'AI that learns your family patterns. Prevents conflicts. Optimizes decisions. Saves 15 hours/week.',
+      title: '"Dadi" — FamilyOS AI Advisor',
+      tagline: 'The AI elder everyone wishes they had',
+      description: 'A family-trained AI that knows your complete family context — schedules, budgets, health, goals. Speaks in your language.',
       bullets: [
-        'Learns communication patterns & triggers',
-        'Financial decision history analysis',
-        'Emotional rhythms tracking',
-        'Predictive planning and optimization',
-        'Conflict mediation and translation',
-        'Save 15 hours/week on coordination'
+        'Knows your family\'s complete context across all modules',
+        'Proactive insights: "Arjun\'s exam is in 3 days — who picks him up?"',
+        'Speaks Hindi, Tamil, Telugu, Bengali + English',
+        'Budget analysis and savings suggestions',
+        'Festival reminders with gift budget guidance',
+        'Available 24/7 — no appointment needed'
       ]
     }
   ]
-  
+
   return (
     <div className="website-page">
       <section className="page-header-new">
         <div className="website-container">
-          <h1>Seven Pillars of Family Excellence</h1>
-          <p>A complete operating system designed specifically for modern families</p>
+          <h1>Eight Pillars of the Indian Family OS</h1>
+          <p>Built for joint families, vernacular-first, WhatsApp-native, India from day one</p>
         </div>
       </section>
 
@@ -421,8 +398,8 @@ const ProductPage = () => {
                 <div>
                   <h2>{feature.title}</h2>
                   <p className="feature-tagline">{feature.tagline}</p>
-            </div>
-          </div>
+                </div>
+              </div>
               <p className="feature-description">{feature.description}</p>
               <div className="feature-bullets">
                 {feature.bullets.map((bullet, i) => (
@@ -431,9 +408,9 @@ const ProductPage = () => {
                       <path d="M16.6667 5L7.5 14.1667L3.33334 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                     <span>{bullet}</span>
-            </div>
+                  </div>
                 ))}
-          </div>
+              </div>
             </div>
           ))}
         </div>
@@ -442,15 +419,11 @@ const ProductPage = () => {
       <section className="cta-section-new">
         <div className="website-container">
           <div className="cta-content-new">
-            <h2>Ready to Transform Your Family?</h2>
-            <p>Launching in 2027. Join the waitlist now. Start free, upgrade when ready.</p>
+            <h2>Ready to Bring Your Family Together?</h2>
+            <p>Early access is free. No credit card. Works on any Android or iPhone.</p>
             <div className="cta-buttons-new">
-              <button className="btn-cta-primary" onClick={() => navigate('/auth')}>
-                Get Started Free
-              </button>
-              <button className="btn-cta-secondary" onClick={() => navigate('/pricing')}>
-                View Pricing
-              </button>
+              <button className="btn-cta-primary" onClick={() => navigate('/auth')}>Get Early Access Free</button>
+              <button className="btn-cta-secondary" onClick={() => navigate('/pricing')}>View Pricing</button>
             </div>
           </div>
         </div>
@@ -459,126 +432,129 @@ const ProductPage = () => {
   )
 }
 
-const AboutPage = () => {
-  return (
-    <div className="website-page">
-      <section className="page-header-new">
-        <div className="website-container">
-          <h1>Building the Future of Family</h1>
-          <p>We believe every family deserves an operating system</p>
+const AboutPage = () => (
+  <div className="website-page">
+    <section className="page-header-new">
+      <div className="website-container">
+        <h1>Building the Digital Infrastructure of the Indian Family</h1>
+        <p>We are not building an app. We are building the operating system for 300 million Indian families.</p>
+      </div>
+    </section>
+
+    <section className="about-content-new">
+      <div className="website-container">
+        <div className="mission-block-new">
+          <h2>Our Mission</h2>
+          <p className="mission-text">
+            To own the digital layer of the Indian family the way Zepto owns quick commerce and Zerodha owns retail investing. We intend to be the infrastructure — not the feature.
+          </p>
         </div>
-      </section>
 
-      <section className="about-content-new">
-        <div className="website-container">
-          <div className="mission-block-new">
-            <h2>Our Mission</h2>
-            <p className="mission-text">
-              To build the infrastructure for 50 million legendary families. We're not just building software—we're building the foundation for human flourishing across generations.
-            </p>
-          </div>
+        <div className="why-block-new">
+          <h2>Why We Exist</h2>
+          <p>
+            BiggFam, the US-based "Family OS," calls itself the operating system for legendary families. It is well-designed, thoughtfully built, and completely irrelevant to India. It assumes nuclear families, individual subscriptions, Western parenting norms, and English-first interfaces. India is the opposite of all four.
+          </p>
+          <p>
+            FamilyOS is the version BiggFam cannot build because it doesn't understand what an Indian family actually is: a multi-generational, emotionally dense, financially entangled, deeply WhatsApp-native unit of 6 to 25 people who share everything from a kitchen to a god shelf.
+          </p>
+          <p>
+            We are not building "Cozi for India." We are building what Cozi, FamilyWall, Splitwise, Google Family Link, and a family health app would be if they were designed in Mumbai, for India, from day one.
+          </p>
+        </div>
 
-          <div className="why-block-new">
-            <h2>Why We Exist</h2>
-            <p>
-              Families are the foundation of society, yet they have no tools built specifically for them. Companies have Slack, Salesforce, and Google Workspace. Individuals have smartphones and social media. But families? They're stuck with scattered WhatsApp groups and forgotten promises.
-            </p>
-            <p>
-              We watched as 70% of generational wealth was lost. We saw families break down from poor communication. We witnessed elders take their wisdom to the grave. We knew there had to be a better way.
-            </p>
-          </div>
-
-          <div className="values-block-new">
-            <h2>Our Values</h2>
-            <div className="values-grid-new">
-              <div className="value-box-new">
-                <div className="value-icon-box">🤝</div>
-                <h3>Family First</h3>
-                <p>Every decision we make is through the lens of: "Does this help families thrive?"</p>
-              </div>
-              <div className="value-box-new">
-                <div className="value-icon-box">🔒</div>
-                <h3>Privacy Always</h3>
-                <p>Your family data is sacred. End-to-end encryption. You own and control everything.</p>
-              </div>
-              <div className="value-box-new">
-                <div className="value-icon-box">🌱</div>
-                <h3>Long-term Thinking</h3>
-                <p>We are building for generations, not quarters. Your family legacy matters.</p>
-              </div>
-              <div className="value-box-new">
-                <div className="value-icon-box">✨</div>
-                <h3>Excellence</h3>
-                <p>Apple-grade design. Shopify-level dashboards. Calm-quality experience.</p>
-              </div>
+        <div className="values-block-new">
+          <h2>Our Values</h2>
+          <div className="values-grid-new">
+            <div className="value-box-new">
+              <div className="value-icon-box">🇮🇳</div>
+              <h3>India First, Always</h3>
+              <p>Every decision is filtered through: does this work for a 67-year-old grandparent in Ahmedabad who speaks only Gujarati?</p>
+            </div>
+            <div className="value-box-new">
+              <div className="value-icon-box">🔒</div>
+              <h3>Privacy by Default</h3>
+              <p>DPDP Act 2023 compliant. End-to-end encrypted. Your family data never trains our models.</p>
+            </div>
+            <div className="value-box-new">
+              <div className="value-icon-box">❤️</div>
+              <h3>Emotion-First Design</h3>
+              <p>The Indian family is not a scheduling problem. It is an emotional institution. Every screen reflects this.</p>
+            </div>
+            <div className="value-box-new">
+              <div className="value-icon-box">🌐</div>
+              <h3>Bharat Languages</h3>
+              <p>Hindi, Tamil, Telugu, Bengali, Marathi, Gujarati — not translation, but genuine cultural intelligence.</p>
             </div>
           </div>
         </div>
-      </section>
-    </div>
-  )
-}
+      </div>
+    </section>
+  </div>
+)
 
 const PricingPage = () => {
   const navigate = useNavigate()
-  
+
   const plans = [
     {
       name: 'Free',
-      price: '$0',
+      price: '₹0',
       period: '/month',
-      description: 'Perfect for getting started',
+      description: 'For small families getting started',
       features: [
-        'Up to 4 family members',
-        'Basic FamilyHub',
-        'Simple wealth tracking',
-        '5GB storage',
-        'Core features'
+        'Up to 6 family members',
+        'Saath Mein Calendar',
+        'Yaadein Memory Vault (5 GB)',
+        'Bulletin Noticeboard',
+        'Basic Ghar Ka Hisaab',
       ],
       cta: 'Start Free',
       popular: false
     },
     {
-      name: 'Family Plan',
-      price: '$29',
+      name: 'Parivar Plan',
+      price: '₹199',
       period: '/month',
-      description: 'Most Popular',
+      description: 'Most Popular — Full Indian family',
       features: [
-        'Unlimited family members',
-        'All core features unlocked',
-        'AI insights (100 queries/month)',
-        '100GB storage',
-        'Priority support',
-        'Advanced analytics'
+        'Up to 20 family members',
+        'All 8 modules unlocked',
+        'Dadi AI (100 queries/month)',
+        'Padhai Portal + Sehat Vault',
+        'Kagaz Document Store (50 GB)',
+        'UPI-linked expense sync',
+        'Priority support in Hindi & English'
       ],
-      cta: 'Start 14-Day Trial',
+      cta: 'Start 14-Day Free Trial',
       popular: true
     },
     {
-      name: 'Legacy Plan',
-      price: '$79',
+      name: 'Vansh Plan',
+      price: '₹499',
       period: '/month',
-      description: 'For multi-generational families',
+      description: 'For joint families & extended networks',
       features: [
-        'Everything in Family Plan',
-        'Unlimited AI queries',
-        'Full Legacy Vault with time locks',
-        'Advanced estate planning',
-        '1TB storage',
-        'Concierge onboarding',
-        'White-glove support'
+        'Unlimited family members',
+        'Everything in Parivar Plan',
+        'Unlimited Dadi AI queries',
+        'Annual family photobook (1 free/year)',
+        'Mohalla / Society network features',
+        '200 GB storage',
+        'Concierge onboarding in your language',
+        'NRI family sharing across countries'
       ],
-      cta: 'Start 14-Day Trial',
+      cta: 'Start 14-Day Free Trial',
       popular: false
     }
   ]
-  
+
   return (
     <div className="website-page">
       <section className="page-header-new">
         <div className="website-container">
-          <h1>Simple, Transparent Pricing</h1>
-          <p>Start free. Upgrade when you're ready. Cancel anytime.</p>
+          <h1>Simple Pricing for Indian Families</h1>
+          <p>Start free. Upgrade your whole family for less than a restaurant meal.</p>
         </div>
       </section>
 
@@ -593,7 +569,7 @@ const PricingPage = () => {
                 <div className="price-new">
                   <span className="price-amount">{plan.price}</span>
                   <span className="price-period">{plan.period}</span>
-            </div>
+                </div>
                 <ul className="features-list-new">
                   {plan.features.map((feature, i) => (
                     <li key={i}>
@@ -603,14 +579,11 @@ const PricingPage = () => {
                       {feature}
                     </li>
                   ))}
-              </ul>
-                <button 
-                  className={`btn-pricing-${plan.popular ? 'primary' : 'secondary'}`}
-                  onClick={() => navigate('/auth')}
-                >
+                </ul>
+                <button className={`btn-pricing-${plan.popular ? 'primary' : 'secondary'}`} onClick={() => navigate('/auth')}>
                   {plan.cta}
                 </button>
-            </div>
+              </div>
             ))}
           </div>
         </div>
@@ -620,12 +593,7 @@ const PricingPage = () => {
 }
 
 const ContactPage = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  })
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
 
   const handleSubmit = (e) => {
@@ -639,7 +607,7 @@ const ContactPage = () => {
       <section className="page-header-new">
         <div className="website-container">
           <h1>Get in Touch</h1>
-          <p>We'd love to hear from you. Send us a message and we'll respond within 24 hours.</p>
+          <p>We respond within 24 hours — or message us on WhatsApp for faster support.</p>
         </div>
       </section>
 
@@ -651,24 +619,15 @@ const ContactPage = () => {
               <div className="contact-items-new">
                 <div className="contact-item-new">
                   <div className="contact-icon-new">📧</div>
-                <div>
-                  <h4>Email</h4>
-                    <p>hello@biggfam.com</p>
-                  </div>
+                  <div><h4>Email</h4><p>hello@familyos.in</p></div>
                 </div>
                 <div className="contact-item-new">
                   <div className="contact-icon-new">💬</div>
-                <div>
-                  <h4>Live Chat</h4>
-                  <p>Available Mon-Fri, 9am-6pm PST</p>
+                  <div><h4>WhatsApp Support</h4><p>Available Mon–Sat, 9am–8pm IST</p></div>
                 </div>
-              </div>
                 <div className="contact-item-new">
                   <div className="contact-icon-new">📍</div>
-                <div>
-                  <h4>Office</h4>
-                  <p>San Francisco, CA</p>
-                  </div>
+                  <div><h4>Office</h4><p>Bengaluru, India</p></div>
                 </div>
               </div>
             </div>
@@ -684,47 +643,21 @@ const ContactPage = () => {
                 <form onSubmit={handleSubmit}>
                   <div className="form-row-new">
                     <label>Name</label>
-                    <input
-                      type="text"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      required
-                      placeholder="Your name"
-                    />
+                    <input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required placeholder="Aapka naam" />
                   </div>
                   <div className="form-row-new">
                     <label>Email</label>
-                    <input
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      required
-                      placeholder="your@email.com"
-                    />
+                    <input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} required placeholder="your@email.com" />
                   </div>
                   <div className="form-row-new">
                     <label>Subject</label>
-                    <input
-                      type="text"
-                      value={formData.subject}
-                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                      required
-                      placeholder="What's this about?"
-                    />
+                    <input type="text" value={formData.subject} onChange={(e) => setFormData({ ...formData, subject: e.target.value })} required placeholder="Kya baat hai?" />
                   </div>
                   <div className="form-row-new">
                     <label>Message</label>
-                    <textarea
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      rows={6}
-                      required
-                      placeholder="Tell us more..."
-                    />
+                    <textarea value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} rows={6} required placeholder="Tell us more..." />
                   </div>
-                  <button type="submit" className="btn-form-submit">
-                    Send Message
-                  </button>
+                  <button type="submit" className="btn-form-submit">Send Message</button>
                 </form>
               )}
             </div>

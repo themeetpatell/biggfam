@@ -27,11 +27,11 @@ const Auth = () => {
         return
       }
       console.log('Sign up:', formData)
-      localStorage.setItem('biggfam_auth', 'true')
+      localStorage.setItem('familyos_auth', 'true')
       navigate('/family')
     } else if (mode === 'login') {
       console.log('Login:', { email: formData.email, password: formData.password })
-      localStorage.setItem('biggfam_auth', 'true')
+      localStorage.setItem('familyos_auth', 'true')
       navigate('/family')
     } else if (mode === 'reset') {
       console.log('Reset password for:', formData.email)
@@ -49,17 +49,17 @@ const Auth = () => {
         <div className="auth-header">
           <div className="auth-logo">
             <div className="logo-icon">F</div>
-            <span>BiggFam</span>
+            <span>FamilyOS</span>
           </div>
           <h1>
-            {mode === 'signup' && 'Create Your Account'}
-            {mode === 'login' && 'Welcome Back'}
-            {mode === 'reset' && 'Reset Password'}
+            {mode === 'signup' && 'Apne Parivar Ko Jodon'}
+            {mode === 'login' && 'Wapas Aaiye'}
+            {mode === 'reset' && 'Password Reset Karein'}
           </h1>
           <p>
-            {mode === 'signup' && 'Start building your legendary family today'}
-            {mode === 'login' && 'Sign in to your BiggFam account'}
-            {mode === 'reset' && 'Enter your email to reset your password'}
+            {mode === 'signup' && 'India\'s family OS — free to start, built for your parivar'}
+            {mode === 'login' && 'Sign in to your FamilyOS account'}
+            {mode === 'reset' && 'Enter your email and we\'ll send a reset link'}
           </p>
         </div>
 
@@ -95,7 +95,7 @@ const Auth = () => {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 required
-                placeholder="John Doe"
+                placeholder="Aapka poora naam"
               />
             </div>
           )}

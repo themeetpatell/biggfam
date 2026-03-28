@@ -14,40 +14,40 @@ import {
 } from './components.jsx'
 
 const familyMembers = [
-  { name: 'Sarah', role: 'Parent · 42', mood: 'Energized', lastSync: '2 min ago' },
-  { name: 'David', role: 'Parent · 44', mood: 'Stressed', lastSync: '5 min ago' },
-  { name: 'Emma', role: 'Daughter · 12', mood: 'Happy', lastSync: '1 hr ago' },
-  { name: 'Noah', role: 'Son · 8', mood: 'Neutral', lastSync: '3 hr ago' },
+  { name: 'Priya', role: 'Mother · 32', mood: 'Energized', lastSync: '2 min ago' },
+  { name: 'Rameshbhai', role: 'Dadaji · 67', mood: 'Happy', lastSync: '5 min ago' },
+  { name: 'Arjun', role: 'Son · 14', mood: 'Neutral', lastSync: '1 hr ago' },
+  { name: 'Karan', role: 'Son (Pune) · 28', mood: 'Stressed', lastSync: '3 hr ago' },
 ]
 
 const wealthItems = [
-  { category: 'Primary Home', value: '$850K', status: 'Owned', updated: '2 days ago' },
-  { category: 'Retirement Accounts', value: '$420K', status: 'Growing', updated: '1 week ago' },
-  { category: 'Education Fund', value: '$85K', status: 'Active', updated: '3 days ago' },
-  { category: 'Emergency Fund', value: '$45K', status: 'Ready', updated: 'Today' },
+  { category: 'Flat in Bengaluru (Whitefield)', value: '₹1.2 Cr', status: 'Owned', updated: '2 days ago' },
+  { category: 'PPF + Mutual Funds', value: '₹38L', status: 'Growing', updated: '1 week ago' },
+  { category: "Arjun's Education Fund", value: '₹12L', status: 'Active', updated: '3 days ago' },
+  { category: 'Emergency Fund (FD)', value: '₹6L', status: 'Ready', updated: 'Today' },
 ]
 
 const careTasks = [
-  { person: 'Mom (Martha)', task: 'Cardiology appointment', due: 'Tomorrow 2 PM', priority: 'High' },
-  { person: 'Emma', task: 'School project review', due: 'Friday', priority: 'Medium' },
-  { person: 'Noah', task: 'Dental checkup', due: 'Next week', priority: 'Low' },
+  { person: 'Rameshbhai (Dadaji)', task: 'Cardiologist appointment — Apollo', due: 'Kal 3 PM', priority: 'High' },
+  { person: 'Arjun', task: 'Maths board exam preparation', due: 'Friday', priority: 'Medium' },
+  { person: 'Priya', task: 'Vitamin D prescription refill', due: 'Next week', priority: 'Low' },
 ]
 
 const rituals = [
-  { name: 'Sunday Family Dinner', frequency: 'Weekly', lastDone: '2 days ago', impact: 'High bonding' },
-  { name: 'Monthly Budget Review', frequency: 'Monthly', lastDone: '1 week ago', impact: 'Financial clarity' },
-  { name: 'Gratitude Circle', frequency: 'Daily', lastDone: 'Yesterday', impact: 'Emotional wellness' },
+  { name: 'Sunday Family Lunch', frequency: 'Weekly', lastDone: '2 days ago', impact: 'High bonding' },
+  { name: 'Monthly Ghar Ka Hisaab Review', frequency: 'Monthly', lastDone: '1 week ago', impact: 'Financial clarity' },
+  { name: 'Morning Aarti Together', frequency: 'Daily', lastDone: 'Yesterday', impact: 'Spiritual connection' },
 ]
 
 const decisions = [
-  { title: 'Summer vacation planning', status: 'In Progress', deadline: '2 weeks', stakeholders: ['All'] },
-  { title: "Emma's high school choice", status: 'Research', deadline: '3 months', stakeholders: ['Sarah', 'David', 'Emma'] },
+  { title: 'Goa trip planning — Diwali break', status: 'In Progress', deadline: '2 weeks', stakeholders: ['All'] },
+  { title: "Arjun's college stream choice (Science vs Commerce)", status: 'Research', deadline: '3 months', stakeholders: ['Priya', 'Rameshbhai', 'Arjun'] },
 ]
 
 const legacyItems = [
-  { title: 'Family Stories Archive', type: 'Video + Text', locked: false, access: 'All family' },
-  { title: 'Will & Estate Docs', type: 'Legal', locked: true, access: 'Parents only' },
-  { title: 'Letters to 2045', type: 'Time Capsule', locked: true, access: 'Opens in 20 years' },
+  { title: 'Parivar Ki Kahaniyan (Family Stories)', type: 'Video + Text', locked: false, access: 'All family' },
+  { title: 'Property & Legal Documents', type: 'Legal', locked: true, access: 'Elders only' },
+  { title: 'Letter to Arjun — to open at age 25', type: 'Time Capsule', locked: true, access: 'Opens in 11 years' },
 ]
 
 const Pill = ({ children, variant = 'default' }) => (
@@ -81,9 +81,9 @@ const Header = () => (
             <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="white"/>
           </svg>
         </div>
-        <div className="brand-name">BiggFam</div>
+        <div className="brand-name">FamilyOS</div>
       </NavLink>
-      
+
       <nav className="nav-links">
         <NavLink to="/family" end className="nav-item">
           <span className="nav-icon">🏠</span>
@@ -91,34 +91,34 @@ const Header = () => (
         </NavLink>
         <NavLink to="/family/hub" className="nav-item">
           <span className="nav-icon">💬</span>
-          <span>Hub</span>
+          <span>Bulletin</span>
         </NavLink>
         <NavLink to="/family/wealth" className="nav-item">
-          <span className="nav-icon">💰</span>
-          <span>Wealth</span>
+          <span className="nav-icon">💸</span>
+          <span>Hisaab</span>
         </NavLink>
         <NavLink to="/family/care" className="nav-item">
           <span className="nav-icon">🏥</span>
-          <span>Care</span>
+          <span>Sehat</span>
         </NavLink>
         <NavLink to="/family/rituals" className="nav-item">
-          <span className="nav-icon">🎭</span>
-          <span>Rituals</span>
+          <span className="nav-icon">📸</span>
+          <span>Yaadein</span>
         </NavLink>
         <NavLink to="/family/planning" className="nav-item">
-          <span className="nav-icon">🎯</span>
-          <span>Planning</span>
+          <span className="nav-icon">🎓</span>
+          <span>Padhai</span>
         </NavLink>
         <NavLink to="/family/legacy" className="nav-item">
-          <span className="nav-icon">🏛️</span>
-          <span>Legacy</span>
+          <span className="nav-icon">📋</span>
+          <span>Kagaz</span>
         </NavLink>
       </nav>
-      
+
       <div className="nav-actions">
         <NavLink to="/family/ai" className="btn-ai">
           <span className="ai-icon">✨</span>
-          <span>AI Mind</span>
+          <span>Dadi AI</span>
         </NavLink>
       </div>
     </div>
@@ -130,12 +130,12 @@ const Hero = () => (
     <div className="hero-content">
       <div className="hero-badge">
         <span className="badge-dot"></span>
-        <span>Trusted by 10,000+ families worldwide</span>
+        <span>🇮🇳 Built for Indian families — joint, nuclear, and everything in between</span>
       </div>
-      <h1>The Operating System for Modern Families</h1>
+      <h1>The Operating System for Indian Families</h1>
       <p className="hero-description">
-        Unite your family with intelligent communication, transparent wealth management, 
-        comprehensive care coordination, and lasting legacy preservation — all in one place.
+        One platform for your entire parivar — shared calendar, joint expenses, health records,
+        kids' education, memories, and Dadi AI who speaks your language.
       </p>
       <div className="hero-actions">
         <button className="btn-hero-primary">
@@ -154,16 +154,16 @@ const Hero = () => (
       </div>
       <div className="hero-stats">
         <div className="hero-stat">
-          <div className="hero-stat-value">$84T</div>
-          <div className="hero-stat-label">Wealth transferring by 2045</div>
+          <div className="hero-stat-value">300M+</div>
+          <div className="hero-stat-label">Indian Families</div>
         </div>
         <div className="hero-stat">
-          <div className="hero-stat-value">70%</div>
-          <div className="hero-stat-label">Lost without planning</div>
+          <div className="hero-stat-value">50.5%</div>
+          <div className="hero-stat-label">Indians online for family</div>
         </div>
         <div className="hero-stat">
-          <div className="hero-stat-value">45%</div>
-          <div className="hero-stat-label">Families now blended</div>
+          <div className="hero-stat-value">Zero</div>
+          <div className="hero-stat-label">India-first competitors</div>
         </div>
       </div>
     </div>
@@ -185,17 +185,17 @@ const Hero = () => (
         <div className="window-content">
           <div className="mini-stat-grid">
             <div className="mini-stat">
-              <div className="mini-stat-icon">💰</div>
+              <div className="mini-stat-icon">💸</div>
               <div>
-                <div className="mini-stat-value">$1.4M</div>
-                <div className="mini-stat-label">Total Wealth</div>
+                <div className="mini-stat-value">₹1.58 Cr</div>
+                <div className="mini-stat-label">Family Net Worth</div>
               </div>
             </div>
             <div className="mini-stat">
               <div className="mini-stat-icon">👨‍👩‍👧‍👦</div>
               <div>
                 <div className="mini-stat-value">4/4</div>
-                <div className="mini-stat-label">Members Active</div>
+                <div className="mini-stat-label">Sadasya Active</div>
               </div>
             </div>
           </div>
@@ -222,32 +222,31 @@ const ProblemSection = () => (
     <div className="problem-content">
       <div className="problem-text">
         <p className="eyebrow">The Challenge</p>
-        <h2>Families Are Operating With Broken Systems</h2>
+        <h2>Indian Families Run on WhatsApp Chaos</h2>
         <p className="section-description">
-          The modern family faces unprecedented complexity — distributed globally, 
-          managing multi-generational wealth, coordinating care, and preserving legacy. 
-          Yet most families still use WhatsApp groups and spreadsheets.
+          6 to 25 people sharing a kitchen, a budget, and 14 WhatsApp groups — yet no single
+          platform built for how Indian families actually live. We fix that.
         </p>
         <div className="problem-stats">
           <div className="problem-stat">
             <div className="problem-stat-icon">⚠️</div>
             <div>
-              <div className="problem-stat-value">70%</div>
-              <div className="problem-stat-text">of generational wealth lost by 2nd generation</div>
+              <div className="problem-stat-value">50.5%</div>
+              <div className="problem-stat-text">of Indian internet users go online primarily for family connection</div>
             </div>
           </div>
           <div className="problem-stat">
-            <div className="problem-stat-icon">💔</div>
+            <div className="problem-stat-icon">💬</div>
             <div>
-              <div className="problem-stat-value">67%</div>
-              <div className="problem-stat-text">of families report poor communication</div>
+              <div className="problem-stat-value">14+</div>
+              <div className="problem-stat-text">WhatsApp groups the average Indian family manages — none of them organized</div>
             </div>
           </div>
           <div className="problem-stat">
-            <div className="problem-stat-icon">📉</div>
+            <div className="problem-stat-icon">🌐</div>
             <div>
-              <div className="problem-stat-value">45%</div>
-              <div className="problem-stat-text">of US households are blended families</div>
+              <div className="problem-stat-value">Zero</div>
+              <div className="problem-stat-text">apps today built for joint family, vernacular-first, India from day one</div>
             </div>
           </div>
         </div>
@@ -290,50 +289,56 @@ const PillarsSection = () => (
   <section className="section">
     <div className="section-head center">
       <p className="eyebrow">Core pillars</p>
-      <h2>Seven Pillars of a Legendary Family</h2>
+      <h2>Eight Pillars of the Indian Family OS</h2>
     </div>
     <div className="features-grid">
       <div className="feature-card">
-        <div className="feature-icon">💬</div>
-        <h3>FamilyHub</h3>
-        <p>Conflict-free communication templates, weekly syncs, mood check-ins, AI emotional translator</p>
-        <Pill>Slack + Calm for families</Pill>
+        <div className="feature-icon">📅</div>
+        <h3>Saath Mein</h3>
+        <p>Shared family calendar with WhatsApp event detection, festival dates, EMI reminders, large-font view for elders</p>
+        <Pill>Family calendar, finally</Pill>
       </div>
       <div className="feature-card">
-        <div className="feature-icon">💰</div>
-        <h3>Wealth & Assets HQ</h3>
-        <p>Full wealth map, estate planning, shared goals, expense management, generational wealth playbooks</p>
-        <Pill>Single source of truth</Pill>
+        <div className="feature-icon">💸</div>
+        <h3>Ghar Ka Hisaab</h3>
+        <p>Joint expense tracking, UPI-linked (PhonePe, Paytm), monthly budget, settlement reminders — emotionally designed</p>
+        <Pill>Splitwise for your parivar</Pill>
+      </div>
+      <div className="feature-card">
+        <div className="feature-icon">📸</div>
+        <h3>Yaadein</h3>
+        <p>Private family photo vault, AI-organized by event and person, no WhatsApp compression, annual photobook</p>
+        <Pill>Memories without compression</Pill>
+      </div>
+      <div className="feature-card">
+        <div className="feature-icon">🔔</div>
+        <h3>Bulletin</h3>
+        <p>Family noticeboard — announcements, grocery lists, task assignment, pinned messages, works offline</p>
+        <Pill>Family group chat, structured</Pill>
+      </div>
+      <div className="feature-card">
+        <div className="feature-icon">🎓</div>
+        <h3>Padhai Portal</h3>
+        <p>School schedules, marks tracker, CBSE/ICSE/state board-aware AI, homework reminders, tuition fee tracker</p>
+        <Pill>Every exam, one place</Pill>
       </div>
       <div className="feature-card">
         <div className="feature-icon">🏥</div>
-        <h3>CareOS</h3>
-        <p>Parent healthcare dashboard, medication schedules, child development tracker, safety protocols</p>
-        <Pill>Health OS for your clan</Pill>
+        <h3>Sehat</h3>
+        <p>Medical records for all family members, prescription reminders, elderly voice alerts, vaccination tracker</p>
+        <Pill>India's family health OS</Pill>
       </div>
       <div className="feature-card">
-        <div className="feature-icon">🎭</div>
-        <h3>Rituals & Culture</h3>
-        <p>Track weekly routines, festivals, family traditions, values, principles, memory timelines</p>
-        <Pill>Preserve your family brand</Pill>
-      </div>
-      <div className="feature-card">
-        <div className="feature-icon">🎯</div>
-        <h3>Family Planning</h3>
-        <p>Marriage planning, home buying, relocation roadmaps, education planning, retirement simulation</p>
-        <Pill>Chaos into clarity</Pill>
-      </div>
-      <div className="feature-card">
-        <div className="feature-icon">🏛️</div>
-        <h3>Legacy Vault</h3>
-        <p>Letters to future generations, wisdom library, asset instructions, genealogy, stories</p>
-        <Pill>Digital dynasty foundation</Pill>
+        <div className="feature-icon">📋</div>
+        <h3>Kagaz</h3>
+        <p>Store Aadhaar, PAN, property papers, insurance, passports — with expiry reminders and emergency access</p>
+        <Pill>Never lose a document</Pill>
       </div>
       <div className="feature-card highlight">
-        <div className="feature-icon">🧠</div>
-        <h3>AI Family Mind</h3>
-        <p>AI mediator, advisor, planner, mood stabilizer, historical memory, coach — your AI Chief Family Officer</p>
-        <Pill variant="success">The real magic</Pill>
+        <div className="feature-icon">🤖</div>
+        <h3>Dadi — AI Advisor</h3>
+        <p>Knows your family's full context. Proactive: "Arjun's exam is in 3 days — who picks him up?" Speaks Hindi, Tamil, Telugu.</p>
+        <Pill variant="success">The AI elder</Pill>
       </div>
     </div>
   </section>
@@ -359,41 +364,41 @@ const FamilyHubPage = () => {
   const [conversations, setConversations] = useState([
     {
       id: '1',
-      title: 'Summer Vacation Ideas',
-      preview: 'Sarah suggested Greece. David proposed national parks. Emma wants beach...',
+      title: 'Diwali Goa Trip Planning 🏖️',
+      preview: 'Priya ne Goa suggest kiya. Rameshbhai Shirdi prefer karte hain. Arjun kuch bhi chalega...',
       responses: 5,
       startedAt: '2 days ago',
       lastReply: '3h',
-      participants: ['Sarah', 'David', 'Emma', 'Noah'],
+      participants: ['Priya', 'Rameshbhai', 'Arjun', 'Karan'],
       messages: [
-        { id: '1', author: 'Sarah', content: 'What if we went to Greece this summer? I found some amazing family-friendly islands!', timestamp: '2 days ago' },
-        { id: '2', author: 'David', content: 'That sounds expensive. What about national parks? More budget-friendly and educational for the kids.', timestamp: '2 days ago', emotion: 'concerned' },
-        { id: '3', author: 'Emma', content: 'I just want to go to a beach! Can we please go somewhere with a beach?', timestamp: '1 day ago', emotion: 'excited' },
-        { id: '4', author: 'Sarah', content: 'Greece has beaches AND history. It could be a good compromise!', timestamp: '1 day ago' },
-        { id: '5', author: 'Noah', content: 'Can I bring my boogie board?', timestamp: '3h', emotion: 'happy' }
+        { id: '1', author: 'Priya', content: 'Is Diwali break pe Goa chalte hain? Main ne North Goa mein ek good family resort dekha hai — ₹8,000/night, sabke liye rooms hain!', timestamp: '2 days ago' },
+        { id: '2', author: 'Rameshbhai', content: 'Goa mein kya dharm hai bhai? Shirdi chalte hain — sab theek rahega. Budget bhi kam.', timestamp: '2 days ago', emotion: 'concerned' },
+        { id: '3', author: 'Arjun', content: 'Dadaji Shirdi toh har saal jaate hain! Kuch naya karte hain please 🙏', timestamp: '1 day ago', emotion: 'excited' },
+        { id: '4', author: 'Karan', content: 'Main Pune se join karunga. Goa mera vote. Dadaji ke liye beach-side mandir bhi hai Goa mein!', timestamp: '1 day ago' },
+        { id: '5', author: 'Rameshbhai', content: 'Accha theek hai, Goa chalte hain — par Ganesh mandir zaroor jaayenge wahan.', timestamp: '3h', emotion: 'happy' }
       ]
     },
     {
       id: '2',
-      title: 'Budget Review - November',
-      preview: 'Monthly spending down 8%. Let\'s discuss the holiday fund allocation...',
+      title: 'Novembr Ka Ghar Ka Hisaab 💸',
+      preview: 'Is mahine grocery mein zyada kharch hua. EMI on track hai...',
       responses: 2,
       startedAt: 'yesterday',
       lastReply: '12h',
-      participants: ['Sarah', 'David'],
+      participants: ['Priya', 'Rameshbhai'],
       messages: [
-        { id: '1', author: 'David', content: 'Great news! Our spending is down 8% this month. Should we allocate more to the holiday fund?', timestamp: 'yesterday' },
-        { id: '2', author: 'Sarah', content: 'Yes! Let\'s put $500 extra toward gifts and travel. We\'re doing well on our savings goals.', timestamp: '12h' }
+        { id: '1', author: 'Priya', content: 'Is mahine grocery ₹12,000 ho gayi — normal se ₹3,000 zyada. Shayad festive season ki wajah se. EMI sab time pe hai.', timestamp: 'yesterday' },
+        { id: '2', author: 'Rameshbhai', content: 'Theek hai beta. Sabzi mandi se direct lene ki koshish karo — ₹2,000 bachenge. Baaki sab theek lag raha hai.', timestamp: '12h' }
       ]
     }
   ])
 
   const [reminders, setReminders] = useState([
-    { id: '1', type: 'birthday', title: "Emma's Birthday", date: 'Dec 15', person: 'Emma' },
-    { id: '2', type: 'appointment', title: 'Cardiology Appointment', date: 'Tomorrow 2 PM', person: 'Martha' },
-    { id: '3', type: 'promise', title: 'Movie Night with Noah', date: 'Friday 7 PM', person: 'David' },
-    { id: '4', type: 'birthday', title: "David's Birthday", date: 'Jan 8', person: 'David' },
-    { id: '5', type: 'appointment', title: 'School Project Review', date: 'Friday', person: 'Emma' }
+    { id: '1', type: 'birthday', title: "Rameshbhai ka Janamdin 🎂", date: 'Dec 22', person: 'Rameshbhai' },
+    { id: '2', type: 'appointment', title: 'Apollo — Cardiology Checkup', date: 'Kal 3 PM', person: 'Rameshbhai' },
+    { id: '3', type: 'promise', title: "Arjun ka Maths Exam 📚", date: 'Friday', person: 'Arjun' },
+    { id: '4', type: 'birthday', title: "Priya ka Janamdin 🎉", date: 'Jan 15', person: 'Priya' },
+    { id: '5', type: 'appointment', title: 'Car Insurance Renewal (Aadhaar needed)', date: 'Dec 31', person: 'Karan' }
   ])
 
   const templates = [
@@ -782,9 +787,9 @@ const FamilyHubPage = () => {
 
     <div className="page-head">
       <div>
-        <p className="eyebrow">FamilyHub</p>
-        <h2>Communication That Actually Works</h2>
-        <p className="lede">Shared boards, weekly syncs, conflict-free templates, and AI emotional translation</p>
+        <p className="eyebrow">Bulletin — Family Noticeboard</p>
+        <h2>Har Baat Ek Jagah</h2>
+        <p className="lede">Family announcements, tasks, reminders, polls — structured, not buried in a WhatsApp group</p>
       </div>
         <button className="primary" onClick={() => setShowSyncModal(true)}>Create Weekly Sync</button>
     </div>
@@ -881,7 +886,7 @@ const FamilyHubPage = () => {
           ))}
         </div>
         <div className="ai-insight">
-            <strong>🤖 AI Insight:</strong> David's stress level up 20% this week. Suggest scheduling 1:1 time or family relaxation activity.
+            <strong>🤖 Dadi AI:</strong> Karan ka stress is week zyada hai. Sunday lunch pe ek video call schedule karein? Connectivity badhti hai.
         </div>
       </div>
     </div>
