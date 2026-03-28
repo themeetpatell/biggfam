@@ -23,8 +23,8 @@ export default function Auth() {
     setLoading(true)
 
     // Temporary: store basic session in localStorage until Clerk is set up
-    localStorage.setItem('familyos_auth', 'true')
-    localStorage.setItem('familyos_user', JSON.stringify({ name: name || email.split('@')[0], email }))
+    localStorage.setItem('biggfam_auth', 'true')
+    localStorage.setItem('biggfam_user', JSON.stringify({ name: name || email.split('@')[0], email }))
 
     setTimeout(() => {
       navigate('/family')

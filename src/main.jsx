@@ -8,7 +8,7 @@ import Auth from './Auth.jsx'
 
 function RequireAuth({ children }) {
   const location = useLocation()
-  const isAuthed = localStorage.getItem('familyos_auth') === 'true'
+  const isAuthed = localStorage.getItem('biggfam_auth') === 'true'
   if (!isAuthed) {
     return <Navigate to="/auth" state={{ from: location }} replace />
   }
