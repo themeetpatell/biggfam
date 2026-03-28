@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { NavLink, Routes, Route, useNavigate } from 'react-router-dom'
 import './FamilyApp.css'
+import DadiAI from './sections/DadiAI.jsx'
 import { 
   Modal, 
   SearchBar, 
@@ -3326,7 +3327,7 @@ function FamilyApp() {
           <Route path="rituals" element={<RitualsPage />} />
           <Route path="planning" element={<PlanningPage />} />
           <Route path="legacy" element={<LegacyPage />} />
-          <Route path="ai" element={<AIPage />} />
+          <Route path="ai" element={<DadiAI />} />
       </Routes>
     </div>
     </ProtectedRoute>
