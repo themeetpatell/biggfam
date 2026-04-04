@@ -11,13 +11,16 @@
     "db:migrate": "node db/migrate.js"
   },
   "dependencies": {
+    "@clerk/backend": "^3.2.4",
+    "@clerk/react": "^6.1.4",
     "@google/generative-ai": "^0.24.1",
     "@neondatabase/serverless": "^1.0.2",
     "@vercel/node": "^5.6.22",
     "dotenv": "^17.3.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-router-dom": "^7.9.6"
+    "react-router-dom": "^7.9.6",
+    "svix": "^1.90.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
