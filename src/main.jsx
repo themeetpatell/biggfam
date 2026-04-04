@@ -6,6 +6,7 @@ import './index.css'
 import Website from './Website.jsx'
 import FamilyApp from './FamilyApp.jsx'
 import Auth from './Auth.jsx'
+import JoinFamily from './components/JoinFamily.jsx'
 
 function RequireAuth({ children }) {
   const { isLoaded, isSignedIn } = useAuth()
@@ -37,6 +38,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/auth" element={<Auth />} />
           <Route path="/app/*" element={<RequireAuth><FamilyApp /></RequireAuth>} />
           <Route path="/family/*" element={<RequireAuth><FamilyApp /></RequireAuth>} />
+          <Route path="/join" element={<JoinFamily />} />
           <Route path="/*" element={<Website />} />
         </Routes>
       </Router>
