@@ -1,5 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { ClerkProvider, useAuth } from '@clerk/react'
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import './index.css'
 import Website from './Website.jsx'
@@ -7,28 +8,38 @@ import FamilyApp from './FamilyApp.jsx'
 import Auth from './Auth.jsx'
 
 function RequireAuth({ children }) {
+  const { isLoaded, isSignedIn } = useAuth()
   const location = useLocation()
-  const isAuthed = localStorage.getItem('biggfam_auth') === 'true'
-  if (!isAuthed) {
+
+  if (!isLoaded) {
+    return (
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        height: '100vh', fontSize: '18px', color: '#888'
+      }}>
+        Loading…
+      </div>
+    )
+  }
+
+  if (!isSignedIn) {
     return <Navigate to="/auth" state={{ from: location }} replace />
   }
+
   return children
 }
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Router>
-      <Routes>
-        {/* Auth */}
-        <Route path="/auth" element={<Auth />} />
-
-        {/* Platform App — protected */}
-        <Route path="/app/*" element={<RequireAuth><FamilyApp /></RequireAuth>} />
-        <Route path="/family/*" element={<RequireAuth><FamilyApp /></RequireAuth>} />
-
-        {/* Marketing Website — catch-all last */}
-        <Route path="/*" element={<Website />} />
-      </Routes>
-    </Router>
+    <ClerkProvider publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}>
+      <Router>
+        <Routes>
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/app/*" element={<RequireAuth><FamilyApp /></RequireAuth>} />
+          <Route path="/family/*" element={<RequireAuth><FamilyApp /></RequireAuth>} />
+          <Route path="/*" element={<Website />} />
+        </Routes>
+      </Router>
+    </ClerkProvider>
   </StrictMode>
 )
