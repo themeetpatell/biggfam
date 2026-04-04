@@ -228,3 +228,13 @@
   }
 }
 
+.clerk-widget-wrapper {
+  margin-top: 16px;
+}
+
+.clerk-widget-wrapper .cl-card {
+  box-shadow: none !important;
+  border: 1px solid #E0DDD8 !important;
+  border-radius: 12px !important;
+}
+
