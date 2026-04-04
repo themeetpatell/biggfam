@@ -1,91 +1,90 @@
 /**
- * FamilyOS API client
- * All requests go to /api/* — proxied to Vercel serverless functions in dev,
- * served directly on Vercel in production.
+ * BiggFam API client — all requests include Bearer token from Clerk
  */
 
 const BASE = '/api'
 
 async function req(path, options = {}) {
+  const { token, ...rest } = options
   const res = await fetch(`${BASE}${path}`, {
-    headers: { 'Content-Type': 'application/json', ...options.headers },
-    ...options,
-    body: options.body ? JSON.stringify(options.body) : undefined,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...rest.headers,
+    },
+    ...rest,
+    body: rest.body ? JSON.stringify(rest.body) : undefined,
   })
   const data = await res.json()
   if (!res.ok) throw new Error(data.error ?? `API error ${res.status}`)
   return data
 }
 
-// ── Users ────────────────────────────────────────────────────────────────────
 export const users = {
-  get: ({ id, email, phone }) => req(`/users?${new URLSearchParams({ id, email, phone }).toString()}`),
-  create: (body) => req('/users', { method: 'POST', body }),
-  update: (id, body) => req(`/users?id=${id}`, { method: 'PATCH', body }),
+  me: (token) => req('/users?me=true', { token }),
+  update: (id, body, token) => req(`/users?id=${id}`, { method: 'PATCH', body, token }),
 }
 
-// ── Families ─────────────────────────────────────────────────────────────────
 export const families = {
-  list: (user_id) => req(`/families?user_id=${user_id}`),
-  create: (body) => req('/families', { method: 'POST', body }),
+  list: (token) => req('/families', { token }),
+  create: (body, token) => req('/families', { method: 'POST', body, token }),
+  members: (family_id, token) => req(`/families?action=members&family_id=${family_id}`, { token }),
+  createInvite: (family_id, token) => req('/families?action=invite', { method: 'POST', body: { family_id }, token }),
+  getInviteInfo: (inviteToken) => req(`/families?action=invite-info&token=${inviteToken}`, {}),
+  join: (inviteToken, token) => req('/families?action=join', { method: 'POST', body: { token: inviteToken }, token }),
 }
 
-// ── Calendar — Saath Mein ────────────────────────────────────────────────────
+export const dashboard = {
+  get: (family_id, token) => req(`/dashboard?family_id=${family_id}`, { token }),
+}
+
 export const events = {
-  list: (family_id, from, to) => {
+  list: (family_id, from, to, token) => {
     const params = new URLSearchParams({ family_id })
     if (from) params.set('from', from)
     if (to) params.set('to', to)
-    return req(`/events?${params}`)
+    return req(`/events?${params}`, { token })
   },
-  create: (body) => req('/events', { method: 'POST', body }),
-  delete: (id) => req(`/events?id=${id}`, { method: 'DELETE' }),
+  create: (body, token) => req('/events', { method: 'POST', body, token }),
+  delete: (id, token) => req(`/events?id=${id}`, { method: 'DELETE', token }),
 }
 
-// ── Expenses — Ghar Ka Hisaab ────────────────────────────────────────────────
 export const expenses = {
-  list: (family_id, month, year) => {
+  list: (family_id, month, year, token) => {
     const params = new URLSearchParams({ family_id })
     if (month) params.set('month', month)
     if (year) params.set('year', year)
-    return req(`/expenses?${params}`)
+    return req(`/expenses?${params}`, { token })
   },
-  create: (body) => req('/expenses', { method: 'POST', body }),
-  settle: (split_id) => req(`/expenses?split_id=${split_id}`, { method: 'PATCH', body: {} }),
+  create: (body, token) => req('/expenses', { method: 'POST', body, token }),
+  settle: (split_id, token) => req(`/expenses?split_id=${split_id}`, { method: 'PATCH', body: {}, token }),
 }
 
-// ── Bulletin ─────────────────────────────────────────────────────────────────
 export const bulletin = {
-  list: (family_id) => req(`/bulletin?family_id=${family_id}`),
-  create: (body) => req('/bulletin', { method: 'POST', body }),
-  pin: (id, pinned) => req(`/bulletin?id=${id}`, { method: 'PATCH', body: { pinned } }),
-  delete: (id) => req(`/bulletin?id=${id}`, { method: 'DELETE' }),
+  list: (family_id, token) => req(`/bulletin?family_id=${family_id}`, { token }),
+  create: (body, token) => req('/bulletin', { method: 'POST', body, token }),
+  patch: (id, body, token) => req(`/bulletin?id=${id}`, { method: 'PATCH', body, token }),
+  delete: (id, token) => req(`/bulletin?id=${id}`, { method: 'DELETE', token }),
 }
 
-// ── Health — Sehat ───────────────────────────────────────────────────────────
 export const health = {
-  list: (family_id, member_id) => {
+  list: (family_id, member_id, token) => {
     const params = new URLSearchParams({ family_id })
     if (member_id) params.set('member_id', member_id)
-    return req(`/health?${params}`)
+    return req(`/health?${params}`, { token })
   },
-  addRecord: (body) => req('/health', { method: 'POST', body }),
-  addMedication: (body) => req('/health?type=medication', { method: 'POST', body }),
+  addRecord: (body, token) => req('/health', { method: 'POST', body, token }),
+  addMedication: (body, token) => req('/health?type=medication', { method: 'POST', body, token }),
 }
 
-// ── Documents — Kagaz ────────────────────────────────────────────────────────
 export const documents = {
-  list: (family_id, filters = {}) => {
-    const params = new URLSearchParams({ family_id, ...filters })
-    return req(`/documents?${params}`)
-  },
-  create: (body) => req('/documents', { method: 'POST', body }),
-  delete: (id) => req(`/documents?id=${id}`, { method: 'DELETE' }),
+  list: (family_id, token) => req(`/documents?family_id=${family_id}`, { token }),
+  create: (body, token) => req('/documents', { method: 'POST', body, token }),
+  delete: (id, token) => req(`/documents?id=${id}`, { method: 'DELETE', token }),
 }
 
-// ── Goals — Sapne ────────────────────────────────────────────────────────────
 export const goals = {
-  list: (family_id) => req(`/goals?family_id=${family_id}`),
-  create: (body) => req('/goals', { method: 'POST', body }),
-  contribute: (body) => req('/goals?type=contribution', { method: 'POST', body }),
+  list: (family_id, token) => req(`/goals?family_id=${family_id}`, { token }),
+  create: (body, token) => req('/goals', { method: 'POST', body, token }),
+  contribute: (body, token) => req('/goals?type=contribution', { method: 'POST', body, token }),
 }
