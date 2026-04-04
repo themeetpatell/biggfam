@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
 
-const DADI_SYSTEM_PROMPT = `You are Dadi AI — the wise, warm, and witty AI heart of FamilyOS, India's family operating system.
+const MAAHI_SYSTEM_PROMPT = `You are Maahi — the wise, warm, and witty AI heart of FamilyOS, India's family operating system.
 
 Your personality:
 - You speak like a loving Indian grandmother who also happens to be razor-sharp with finances, health, and family harmony
@@ -28,12 +28,21 @@ Communication style:
 - If someone is stressed, acknowledge feelings first, advice second
 - Always end with an encouraging note or a practical next step
 
-Remember: You are the digital heart of an Indian family. Every response should feel like it came from someone who truly cares about this family's wellbeing — not a chatbot.`
+Remember: You are Maahi — the digital heart of an Indian family. Every response should feel like it came from someone who truly cares about this family's wellbeing — not a chatbot.`
+
+const allowedOrigins = process.env.NODE_ENV === 'production'
+  ? ['https://biggfam.com', /https:\/\/.*\.vercel\.app$/]
+  : ['http://localhost:5173', 'http://localhost:3000']
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' })
-  }
+  const origin = req.headers.origin
+  const isAllowed = allowedOrigins.some(o => typeof o === 'string' ? o === origin : o.test(origin ?? ''))
+  res.setHeader('Access-Control-Allow-Origin', isAllowed ? origin : '')
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+
+  if (req.method === 'OPTIONS') return res.status(204).end()
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
 
   const { messages, familyContext } = req.body
   if (!messages || !Array.isArray(messages)) {
@@ -42,14 +51,14 @@ export default async function handler(req, res) {
 
   const apiKey = process.env.GEMINI_API_KEY
   if (!apiKey) {
-    return res.status(500).json({ error: 'Gemini API key not configured' })
+    return res.status(503).json({ error: 'MAAHI_UNAVAILABLE', message: "Maahi is being set up. She'll be ready soon." })
   }
 
   try {
     const genAI = new GoogleGenerativeAI(apiKey)
     const model = genAI.getGenerativeModel({
       model: 'gemini-2.0-flash',
-      systemInstruction: DADI_SYSTEM_PROMPT + (familyContext
+      systemInstruction: MAAHI_SYSTEM_PROMPT + (familyContext
         ? `\n\nFamily context:\n${familyContext}`
         : ''),
     })
@@ -65,7 +74,6 @@ export default async function handler(req, res) {
     res.setHeader('Content-Type', 'text/event-stream')
     res.setHeader('Cache-Control', 'no-cache')
     res.setHeader('Connection', 'keep-alive')
-    res.setHeader('Access-Control-Allow-Origin', '*')
 
     const chat = model.startChat({ history })
     const result = await chat.sendMessageStream(lastMessage)
@@ -82,7 +90,7 @@ export default async function handler(req, res) {
   } catch (err) {
     console.error('[api/ai/chat]', err)
     if (!res.headersSent) {
-      res.status(500).json({ error: 'Dadi AI is resting, try again in a moment' })
+      res.status(500).json({ error: 'Maahi is resting, try again in a moment' })
     }
   }
 }
