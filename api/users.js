@@ -1,10 +1,20 @@
 import { query, queryOne } from './_lib/db.js'
+import { requireAuth, requireFamilyMember } from './_lib/auth.js'
 
 export default async function handler(req, res) {
   res.setHeader('Content-Type', 'application/json')
+  const userId = await requireAuth(req, res)
+  if (!userId) return
 
   try {
     if (req.method === 'GET') {
+      // ?me=true — return the authenticated user's own profile
+      if (req.query.me === 'true') {
+        const user = await queryOne('SELECT * FROM users WHERE id = $1', [userId])
+        if (!user) return res.status(404).json({ error: 'User not found' })
+        return res.status(200).json({ user })
+      }
+
       const { id, email, phone } = req.query
       if (!id && !email && !phone) return res.status(400).json({ error: 'id, email, or phone required' })
 
@@ -33,7 +43,9 @@ export default async function handler(req, res) {
     if (req.method === 'PATCH') {
       const { id } = req.query
       const { name, preferred_lang, avatar_url } = req.body
-      if (!id) return res.status(400).json({ error: 'id required' })
+      // Only allow users to update their own profile
+      const targetId = id ?? userId
+      if (targetId !== userId) return res.status(403).json({ error: 'Cannot update another user\'s profile' })
 
       const user = await queryOne(
         `UPDATE users SET
@@ -42,7 +54,7 @@ export default async function handler(req, res) {
            avatar_url = COALESCE($4, avatar_url),
            updated_at = now()
          WHERE id = $1 RETURNING *`,
-        [id, name ?? null, preferred_lang ?? null, avatar_url ?? null]
+        [userId, name ?? null, preferred_lang ?? null, avatar_url ?? null]
       )
       return res.status(200).json({ user })
     }

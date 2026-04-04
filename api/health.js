@@ -1,12 +1,16 @@
 import { query, queryOne } from './_lib/db.js'
+import { requireAuth, requireFamilyMember } from './_lib/auth.js'
 
 export default async function handler(req, res) {
   res.setHeader('Content-Type', 'application/json')
+  const userId = await requireAuth(req, res)
+  if (!userId) return
 
   try {
     if (req.method === 'GET') {
       const { family_id, member_id } = req.query
       if (!family_id) return res.status(400).json({ error: 'family_id required' })
+      if (!await requireFamilyMember(req, res, family_id, userId)) return
 
       const [records, medications] = await Promise.all([
         query(
@@ -36,6 +40,7 @@ export default async function handler(req, res) {
       if (type === 'medication') {
         const { family_id, member_id, name, dosage, frequency, times, start_date, end_date, notes } = req.body
         if (!family_id || !name) return res.status(400).json({ error: 'family_id and name required' })
+        if (!await requireFamilyMember(req, res, family_id, userId)) return
         const med = await queryOne(
           `INSERT INTO medications (family_id, member_id, name, dosage, frequency, times, start_date, end_date, notes)
            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`,
@@ -48,6 +53,7 @@ export default async function handler(req, res) {
       // Default: health record
       const { family_id, member_id, record_type, title, doctor_name, hospital, document_url, notes, record_date } = req.body
       if (!family_id || !title) return res.status(400).json({ error: 'family_id and title required' })
+      if (!await requireFamilyMember(req, res, family_id, userId)) return
       const record = await queryOne(
         `INSERT INTO health_records (family_id, member_id, record_type, title, doctor_name, hospital, document_url, notes, record_date)
          VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`,

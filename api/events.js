@@ -1,12 +1,16 @@
 import { query, queryOne } from './_lib/db.js'
+import { requireAuth, requireFamilyMember } from './_lib/auth.js'
 
 export default async function handler(req, res) {
   res.setHeader('Content-Type', 'application/json')
+  const userId = await requireAuth(req, res)
+  if (!userId) return
 
   try {
     if (req.method === 'GET') {
       const { family_id, from, to } = req.query
       if (!family_id) return res.status(400).json({ error: 'family_id required' })
+      if (!await requireFamilyMember(req, res, family_id, userId)) return
 
       const events = await query(
         `SELECT e.*, u.name AS created_by_name
@@ -22,14 +26,15 @@ export default async function handler(req, res) {
     }
 
     if (req.method === 'POST') {
-      const { family_id, created_by, title, description, event_type, start_time, end_time, all_day, location, reminder_min } = req.body
+      const { family_id, title, description, event_type, start_time, end_time, all_day, location, reminder_min } = req.body
       if (!family_id || !title || !start_time) return res.status(400).json({ error: 'family_id, title, start_time required' })
+      if (!await requireFamilyMember(req, res, family_id, userId)) return
 
       const event = await queryOne(
         `INSERT INTO calendar_events
            (family_id, created_by, title, description, event_type, start_time, end_time, all_day, location, reminder_min)
          VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *`,
-        [family_id, created_by ?? null, title, description ?? null, event_type ?? 'general',
+        [family_id, userId, title, description ?? null, event_type ?? 'general',
          start_time, end_time ?? null, all_day ?? false, location ?? null, reminder_min ?? 60]
       )
       return res.status(201).json({ event })
@@ -38,7 +43,10 @@ export default async function handler(req, res) {
     if (req.method === 'DELETE') {
       const { id } = req.query
       if (!id) return res.status(400).json({ error: 'id required' })
-      await query(`DELETE FROM calendar_events WHERE id = $1`, [id])
+      const existing = await queryOne('SELECT family_id FROM calendar_events WHERE id = $1', [id])
+      if (!existing) return res.status(404).json({ error: 'Event not found' })
+      if (!await requireFamilyMember(req, res, existing.family_id, userId)) return
+      await query('DELETE FROM calendar_events WHERE id = $1', [id])
       return res.status(200).json({ success: true })
     }
 

@@ -1,12 +1,16 @@
 import { query, queryOne } from './_lib/db.js'
+import { requireAuth, requireFamilyMember } from './_lib/auth.js'
 
 export default async function handler(req, res) {
   res.setHeader('Content-Type', 'application/json')
+  const userId = await requireAuth(req, res)
+  if (!userId) return
 
   try {
     if (req.method === 'GET') {
       const { family_id } = req.query
       if (!family_id) return res.status(400).json({ error: 'family_id required' })
+      if (!await requireFamilyMember(req, res, family_id, userId)) return
 
       const goals = await query(
         `SELECT g.*,
@@ -30,28 +34,28 @@ export default async function handler(req, res) {
       const { type } = req.query
 
       if (type === 'contribution') {
-        const { goal_id, user_id, amount, note } = req.body
+        const { goal_id, amount, note } = req.body
         if (!goal_id || !amount) return res.status(400).json({ error: 'goal_id and amount required' })
 
         const contribution = await queryOne(
-          `INSERT INTO goal_contributions (goal_id, user_id, amount, note) VALUES ($1,$2,$3,$4) RETURNING *`,
-          [goal_id, user_id ?? null, amount, note ?? null]
+          'INSERT INTO goal_contributions (goal_id, user_id, amount, note) VALUES ($1,$2,$3,$4) RETURNING *',
+          [goal_id, userId, amount, note ?? null]
         )
-        // Update current_amount
         await query(
-          `UPDATE family_goals SET current_amount = current_amount + $2 WHERE id = $1`,
+          'UPDATE family_goals SET current_amount = current_amount + $2 WHERE id = $1',
           [goal_id, amount]
         )
         return res.status(201).json({ contribution })
       }
 
-      const { family_id, created_by, title, description, target_amount, currency, target_date } = req.body
+      const { family_id, title, description, target_amount, currency, target_date } = req.body
       if (!family_id || !title || !target_amount) return res.status(400).json({ error: 'family_id, title, target_amount required' })
+      if (!await requireFamilyMember(req, res, family_id, userId)) return
 
       const goal = await queryOne(
         `INSERT INTO family_goals (family_id, created_by, title, description, target_amount, currency, target_date)
          VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *`,
-        [family_id, created_by ?? null, title, description ?? null, target_amount, currency ?? 'INR', target_date ?? null]
+        [family_id, userId, title, description ?? null, target_amount, currency ?? 'INR', target_date ?? null]
       )
       return res.status(201).json({ goal })
     }

@@ -1,12 +1,16 @@
 import { query, queryOne } from './_lib/db.js'
+import { requireAuth, requireFamilyMember } from './_lib/auth.js'
 
 export default async function handler(req, res) {
   res.setHeader('Content-Type', 'application/json')
+  const userId = await requireAuth(req, res)
+  if (!userId) return
 
   try {
     if (req.method === 'GET') {
       const { family_id, owner_id, doc_type } = req.query
       if (!family_id) return res.status(400).json({ error: 'family_id required' })
+      if (!await requireFamilyMember(req, res, family_id, userId)) return
 
       const docs = await query(
         `SELECT d.*, u.name AS owner_name
@@ -32,11 +36,12 @@ export default async function handler(req, res) {
     if (req.method === 'POST') {
       const { family_id, owner_id, doc_type, title, document_url, expiry_date, notes } = req.body
       if (!family_id || !title || !document_url) return res.status(400).json({ error: 'family_id, title, document_url required' })
+      if (!await requireFamilyMember(req, res, family_id, userId)) return
 
       const doc = await queryOne(
         `INSERT INTO documents (family_id, owner_id, doc_type, title, document_url, expiry_date, notes)
          VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *`,
-        [family_id, owner_id ?? null, doc_type ?? 'other', title, document_url, expiry_date ?? null, notes ?? null]
+        [family_id, owner_id ?? userId, doc_type ?? 'other', title, document_url, expiry_date ?? null, notes ?? null]
       )
       return res.status(201).json({ document: doc })
     }
@@ -44,7 +49,10 @@ export default async function handler(req, res) {
     if (req.method === 'DELETE') {
       const { id } = req.query
       if (!id) return res.status(400).json({ error: 'id required' })
-      await query(`DELETE FROM documents WHERE id = $1`, [id])
+      const existing = await queryOne('SELECT family_id FROM documents WHERE id = $1', [id])
+      if (!existing) return res.status(404).json({ error: 'Document not found' })
+      if (!await requireFamilyMember(req, res, existing.family_id, userId)) return
+      await query('DELETE FROM documents WHERE id = $1', [id])
       return res.status(200).json({ success: true })
     }
 
