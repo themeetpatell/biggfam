@@ -28,13 +28,34 @@ export async function requireAuth(req, res) {
     return null
   }
 
-  const user = await queryOne('SELECT id FROM users WHERE clerk_id = $1', [clerkUserId])
-  if (!user) {
-    res.status(401).json({ error: 'User not found — complete sign-up first' })
+  try {
+    let user = await queryOne('SELECT id FROM users WHERE clerk_id = $1', [clerkUserId])
+
+    if (!user) {
+      // Auto-provision: webhook may not have fired yet for new sign-ups
+      const clerkUser = await clerkClient.users.getUser(clerkUserId)
+      const email = clerkUser.emailAddresses?.[0]?.emailAddress ?? null
+      const name =
+        [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(' ').trim() ||
+        clerkUser.username ||
+        'Family Member'
+      const avatarUrl = clerkUser.imageUrl ?? null
+
+      user = await queryOne(
+        `INSERT INTO users (clerk_id, name, email, avatar_url)
+         VALUES ($1, $2, $3, $4)
+         ON CONFLICT (clerk_id) DO UPDATE SET name = EXCLUDED.name, email = EXCLUDED.email
+         RETURNING id`,
+        [clerkUserId, name, email, avatarUrl]
+      )
+    }
+
+    return user.id
+  } catch (err) {
+    console.error('[requireAuth] DB error:', err.message)
+    res.status(500).json({ error: `DB error: ${err.message}` })
     return null
   }
-
-  return user.id
 }
 
 /**

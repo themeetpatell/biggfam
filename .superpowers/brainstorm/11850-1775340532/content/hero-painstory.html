@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f0f; color: white; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 32px 16px; }
+
+  .label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #888; margin-bottom: 8px; text-align: center; }
+  h2 { font-size: 22px; font-weight: 800; text-align: center; margin-bottom: 6px; color: white; }
+  .subtitle { font-size: 13px; color: #888; text-align: center; margin-bottom: 32px; }
+
+  /* Hero mockup container */
+  .hero-mockup {
+    width: 100%;
+    max-width: 860px;
+    background: #FFF8F0;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+    position: relative;
+  }
+
+  /* Nav bar */
+  .mock-nav {
+    background: rgba(255,248,240,0.95);
+    backdrop-filter: blur(10px);
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #F5E0C8;
+  }
+  .mock-logo { display: flex; align-items: center; gap: 8px; }
+  .mock-logo-icon { width: 28px; height: 28px; background: #C0622A; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 14px; }
+  .mock-logo-text { font-weight: 800; font-size: 15px; color: #1A1A1A; }
+  .mock-nav-links { display: flex; gap: 24px; }
+  .mock-nav-links span { font-size: 12px; color: #888; font-weight: 500; }
+  .mock-nav-cta { background: #C0622A; color: white; padding: 7px 16px; border-radius: 8px; font-size: 12px; font-weight: 700; }
+
+  /* Hero content */
+  .hero-body {
+    padding: 56px 40px 48px;
+    position: relative;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  /* Chaos cloud / floating bubbles */
+  .chaos-zone {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    margin-bottom: 32px;
+  }
+
+  /* Family silhouette center */
+  .family-center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    z-index: 2;
+  }
+  .family-person {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .person-head {
+    border-radius: 50%;
+    background: #E8C4A0;
+    border: 2px solid rgba(0,0,0,0.08);
+  }
+  .person-body {
+    border-radius: 8px 8px 4px 4px;
+    background: #D4A870;
+  }
+
+  /* Floating chaos bubbles */
+  .chaos-bubble {
+    position: absolute;
+    background: white;
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-size: 11px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    border: 1px solid rgba(0,0,0,0.06);
+    white-space: nowrap;
+    font-weight: 500;
+    color: #333;
+    z-index: 3;
+  }
+  .chaos-bubble.whatsapp {
+    background: #E8FFE8;
+    border-color: rgba(37,211,102,0.2);
+  }
+  .chaos-bubble.red {
+    background: #FFF0F0;
+    border-color: rgba(239,68,68,0.2);
+    color: #DC2626;
+  }
+  .chaos-bubble.amber {
+    background: #FFFBEB;
+    border-color: rgba(251,191,36,0.2);
+    color: #92400E;
+  }
+  .chaos-bubble.blue {
+    background: #EFF6FF;
+    border-color: rgba(59,130,246,0.2);
+    color: #1D4ED8;
+  }
+
+  /* Connector lines (chaos lines) */
+  .chaos-lines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Badge above headline */
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #FFE4CC;
+    border-radius: 50px;
+    padding: 6px 14px;
+    margin-bottom: 18px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #C0622A;
+    letter-spacing: 0.3px;
+  }
+
+  /* Headline */
+  .hero-headline {
+    font-size: 38px;
+    font-weight: 900;
+    color: #1A1A1A;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+  }
+  .hero-headline .pain { color: #1A1A1A; }
+  .hero-headline .solution { color: #C0622A; }
+
+  /* Sub */
+  .hero-sub {
+    font-size: 15px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 28px;
+    max-width: 480px;
+  }
+
+  /* CTA row */
+  .hero-cta {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .cta-input {
+    border: 2px solid #F5E0C8;
+    background: white;
+    border-radius: 12px;
+    padding: 13px 18px;
+    font-size: 14px;
+    color: #999;
+    min-width: 220px;
+  }
+  .cta-btn {
+    background: #C0622A;
+    color: white;
+    border-radius: 12px;
+    padding: 13px 24px;
+    font-size: 14px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 8px 24px rgba(192,98,42,0.35);
+  }
+
+  /* Social proof */
+  .social-proof {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: #888;
+    justify-content: center;
+  }
+  .avatars { display: flex; }
+  .avatar {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    border: 2px solid white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    margin-left: -6px;
+  }
+  .avatar:first-child { margin-left: 0; }
+
+  /* Notes panel */
+  .notes {
+    width: 100%;
+    max-width: 860px;
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .note {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 13px;
+  }
+  .note .note-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #888; margin-bottom: 6px; }
+  .note .note-text { color: #ccc; line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<div class="label">Hero Concept Mockup</div>
+<h2>Pain-first hero with floating family chaos</h2>
+<p class="subtitle">Headline names the chaos → visuals show it floating around the family → CTA offers the escape</p>
+
+<div class="hero-mockup">
+  <!-- Nav -->
+  <div class="mock-nav">
+    <div class="mock-logo">
+      <div class="mock-logo-icon">F</div>
+      <div class="mock-logo-text">FamilyOS</div>
+    </div>
+    <div class="mock-nav-links">
+      <span>Product</span><span>Pricing</span><span>About</span>
+    </div>
+    <div class="mock-nav-cta">Sign In</div>
+  </div>
+
+  <!-- Hero body -->
+  <div class="hero-body">
+
+    <!-- Chaos zone: family + floating bubbles -->
+    <div class="chaos-zone">
+
+      <!-- SVG connector lines -->
+      <svg class="chaos-lines" viewBox="0 0 800 280" preserveAspectRatio="none">
+        <line x1="160" y1="60" x2="380" y2="140" stroke="#E0C0A8" stroke-width="1" stroke-dasharray="4 4" opacity="0.6"/>
+        <line x1="620" y1="50" x2="420" y2="140" stroke="#E0C0A8" stroke-width="1" stroke-dasharray="4 4" opacity="0.6"/>
+        <line x1="100" y1="180" x2="360" y2="160" stroke="#E0C0A8" stroke-width="1" stroke-dasharray="4 4" opacity="0.6"/>
+        <line x1="680" y1="200" x2="440" y2="170" stroke="#E0C0A8" stroke-width="1" stroke-dasharray="4 4" opacity="0.6"/>
+        <line x1="200" y1="230" x2="360" y2="190" stroke="#E0C0A8" stroke-width="1" stroke-dasharray="4 4" opacity="0.6"/>
+        <line x1="590" y1="240" x2="440" y2="190" stroke="#E0C0A8" stroke-width="1" stroke-dasharray="4 4" opacity="0.6"/>
+        <line x1="330" y1="20" x2="390" y2="120" stroke="#E0C0A8" stroke-width="1" stroke-dasharray="4 4" opacity="0.6"/>
+      </svg>
+
+      <!-- Family silhouette center -->
+      <div class="family-center">
+        <!-- Grandpa -->
+        <div class="family-person">
+          <div class="person-head" style="width:22px;height:22px;background:#D4A870;"></div>
+          <div class="person-body" style="width:18px;height:28px;background:#C0622A;opacity:0.4;"></div>
+        </div>
+        <!-- Mom -->
+        <div class="family-person">
+          <div class="person-head" style="width:26px;height:26px;background:#E8C4A0;"></div>
+          <div class="person-body" style="width:22px;height:34px;background:#C0622A;opacity:0.55;"></div>
+        </div>
+        <!-- Dad -->
+        <div class="family-person">
+          <div class="person-head" style="width:30px;height:30px;background:#C9995A;"></div>
+          <div class="person-body" style="width:26px;height:40px;background:#C0622A;opacity:0.7;"></div>
+        </div>
+        <!-- Teen -->
+        <div class="family-person">
+          <div class="person-head" style="width:22px;height:22px;background:#E8C4A0;"></div>
+          <div class="person-body" style="width:18px;height:28px;background:#C0622A;opacity:0.5;"></div>
+        </div>
+        <!-- Kid -->
+        <div class="family-person">
+          <div class="person-head" style="width:18px;height:18px;background:#F5D5B0;"></div>
+          <div class="person-body" style="width:15px;height:20px;background:#C0622A;opacity:0.4;"></div>
+        </div>
+      </div>
+
+      <!-- Floating chaos bubbles - positioned around family -->
+      <div class="chaos-bubble whatsapp" style="top:20px; left:120px; transform:rotate(-3deg);">
+        💬 Family Group (14 messages)
+      </div>
+      <div class="chaos-bubble red" style="top:10px; right:160px; transform:rotate(2deg);">
+        ⚠️ Electricity bill due — who pays?
+      </div>
+      <div class="chaos-bubble amber" style="top:70px; left:30px; transform:rotate(-5deg);">
+        📅 Arjun ka exam kab hai?
+      </div>
+      <div class="chaos-bubble" style="top:55px; right:40px; transform:rotate(4deg);">
+        📁 Passport scan kahan rakh di?
+      </div>
+      <div class="chaos-bubble blue" style="bottom:60px; left:20px; transform:rotate(3deg);">
+        💊 Maa ki davai khatam ho gayi
+      </div>
+      <div class="chaos-bubble red" style="bottom:40px; right:80px; transform:rotate(-2deg);">
+        📸 Photos 14 alag groups mein
+      </div>
+      <div class="chaos-bubble amber" style="bottom:80px; left:180px; transform:rotate(-4deg);">
+        🤔 Kaun book karega train?
+      </div>
+      <div class="chaos-bubble" style="top:5px; left:310px; transform:rotate(2deg); font-size:10px;">
+        🎉 Diwali plan — no one agreed
+      </div>
+    </div>
+
+    <!-- Text + CTA -->
+    <div class="hero-badge">
+      <span>🇮🇳</span> Built for Indian Families · Early Access Free
+    </div>
+
+    <div class="hero-headline">
+      Your family runs on<br>
+      <span class="solution">chaos. FamilyOS fixes that.</span>
+    </div>
+
+    <div class="hero-sub">
+      One app for your whole family — joint calendar, shared expenses, health records, memories, and Maahi AI who knows your family's full story.
+    </div>
+
+    <div class="hero-cta">
+      <div class="cta-input">your@email.com</div>
+      <div class="cta-btn">Join Free → <span style="font-size:16px;">✨</span></div>
+    </div>
+
+    <div class="social-proof">
+      <div class="avatars">
+        <div class="avatar" style="background:#FFD1A8;">👩</div>
+        <div class="avatar" style="background:#D4F0FF;">👨</div>
+        <div class="avatar" style="background:#D4FFE8;">👴</div>
+        <div class="avatar" style="background:#FFE4D1;">👧</div>
+        <div class="avatar" style="background:#EDE9FF;">👦</div>
+      </div>
+      <span>2,400+ families already joined · No credit card · Works on any phone</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- Design notes -->
+<div class="notes">
+  <div class="note">
+    <div class="note-label">Pain Bubbles Content</div>
+    <div class="note-text">Each bubble is a real Indian family pain: WhatsApp chaos, bill disputes, health reminders, scattered photos. These are <strong>clickable/animated</strong> in the real page — they pulse and float gently, then a new one replaces an old one every 3 seconds.</div>
+  </div>
+  <div class="note">
+    <div class="note-label">Animation Intent</div>
+    <div class="note-text">Bubbles float with subtle CSS keyframe animation (up-down drift, slight rotation). The family silhouette glows orange warmly in the center. On scroll, bubbles "fade away" and the headline transitions to the solution — chaos → order.</div>
+  </div>
+  <div class="note">
+    <div class="note-label">CTA Strategy</div>
+    <div class="note-text">Email capture (not "Get Started" to auth) — pre-launch waitlist. Simple, low friction. Social proof strip reinforces with avatar count + trust signals.</div>
+  </div>
+  <div class="note">
+    <div class="note-label">Mobile Adaptation</div>
+    <div class="note-text">On mobile, bubbles stack vertically in 2 columns above the headline. Family silhouette becomes smaller centered icon. CTA stacks vertically with full-width button.</div>
+  </div>
+</div>
+
+</body>
+</html>

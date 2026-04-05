@@ -11,6 +11,7 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 -- ============================================================
 CREATE TABLE IF NOT EXISTS users (
   id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  clerk_id        TEXT UNIQUE,
   name            TEXT NOT NULL,
   email           TEXT UNIQUE,
   phone           TEXT UNIQUE,
@@ -19,6 +20,8 @@ CREATE TABLE IF NOT EXISTS users (
   created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at      TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+-- Idempotent migration for existing databases
+ALTER TABLE users ADD COLUMN IF NOT EXISTS clerk_id TEXT UNIQUE;
 
 -- ============================================================
 -- FAMILIES
@@ -219,6 +222,19 @@ CREATE TABLE IF NOT EXISTS goal_contributions (
 );
 
 -- ============================================================
+-- INVITE TOKENS — Family invite links
+-- ============================================================
+CREATE TABLE IF NOT EXISTS invite_tokens (
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  family_id   UUID NOT NULL REFERENCES families(id) ON DELETE CASCADE,
+  created_by  UUID REFERENCES users(id) ON DELETE SET NULL,
+  token       TEXT UNIQUE NOT NULL,
+  expires_at  TIMESTAMPTZ NOT NULL,
+  used_at     TIMESTAMPTZ,
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- ============================================================
 -- INDEXES for common query patterns
 -- ============================================================
 CREATE INDEX IF NOT EXISTS idx_family_members_family   ON family_members(family_id);
@@ -236,3 +252,5 @@ CREATE INDEX IF NOT EXISTS idx_medications_member      ON medications(member_id)
 CREATE INDEX IF NOT EXISTS idx_education_student       ON education_records(student_id);
 CREATE INDEX IF NOT EXISTS idx_documents_family        ON documents(family_id);
 CREATE INDEX IF NOT EXISTS idx_goals_family            ON family_goals(family_id);
+CREATE INDEX IF NOT EXISTS idx_invite_tokens_token     ON invite_tokens(token);
+CREATE INDEX IF NOT EXISTS idx_invite_tokens_family    ON invite_tokens(family_id);

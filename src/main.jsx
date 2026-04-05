@@ -32,10 +32,18 @@ function RequireAuth({ children }) {
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ClerkProvider publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}>
+    <ClerkProvider
+      publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}
+      afterSignOutUrl="/"
+      signInUrl="/auth"
+      signUpUrl="/auth/sign-up"
+      signInFallbackRedirectUrl="/family"
+      signUpFallbackRedirectUrl="/family"
+    >
       <Router>
         <Routes>
-          <Route path="/auth" element={<Auth />} />
+          <Route path="/auth/*" element={<Auth />} />
+          <Route path="/auth/sign-up/*" element={<Auth mode="signup" />} />
           <Route path="/app/*" element={<RequireAuth><FamilyApp /></RequireAuth>} />
           <Route path="/family/*" element={<RequireAuth><FamilyApp /></RequireAuth>} />
           <Route path="/join" element={<JoinFamily />} />

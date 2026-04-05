@@ -15,7 +15,17 @@ async function req(path, options = {}) {
     ...rest,
     body: rest.body ? JSON.stringify(rest.body) : undefined,
   })
-  const data = await res.json()
+  const text = await res.text()
+  let data
+  try {
+    data = text ? JSON.parse(text) : {}
+  } catch {
+    throw new Error(
+      res.ok
+        ? `Server returned non-JSON response (${res.status})`
+        : `API error ${res.status} — is the dev server running? (vercel dev)`
+    )
+  }
   if (!res.ok) throw new Error(data.error ?? `API error ${res.status}`)
   return data
 }

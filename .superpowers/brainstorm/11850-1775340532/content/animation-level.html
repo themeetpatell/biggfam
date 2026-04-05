@@ -1,0 +1,40 @@
+<h2>Animation & motion intensity?</h2>
+<p class="subtitle">How much does the page move? This affects polish, implementation complexity, and how premium it feels.</p>
+
+<div class="options">
+
+  <div class="option" data-choice="subtle" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Subtle — Tasteful micro-interactions</h3>
+      <p><strong>What moves:</strong> Cards fade + slide up when scrolled into view. Buttons scale on hover. Pain bubbles pulse gently. Counters count up on scroll.<br><br>
+      <strong>Tech:</strong> Pure CSS transitions + Intersection Observer. No libs.<br><br>
+      <strong>Feels like:</strong> Stripe, Linear, Zerodha — restrained and professional. Every animation has a purpose.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="medium" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Medium — Scroll-driven storytelling ⭐ Recommended</h3>
+      <p><strong>What moves:</strong> Pain bubbles float + cycle (CSS keyframes). Hero chaos → order transition on scroll. Feature sections alternate slide-in (left/right). Pricing cards stagger in. Smooth section transitions.<br><br>
+      <strong>Tech:</strong> CSS keyframes + Framer Motion (lightweight). ~15KB addition.<br><br>
+      <strong>Feels like:</strong> Cred, Razorpay, early Notion — expressive and alive, but never gimmicky. This is the sweet spot for Indian consumer apps.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="heavy" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Heavy — Cinematic scroll experience</h3>
+      <p><strong>What moves:</strong> Parallax hero layers. Scroll-snapped full-screen sections. Morphing backgrounds between sections. 3D card flips. Text scramble effects. Lottie illustrations.<br><br>
+      <strong>Tech:</strong> GSAP ScrollTrigger + Lottie + custom shaders. Significant complexity.<br><br>
+      <strong>Feels like:</strong> Apple product pages, Vercel, Linear's hero — stunning but takes weeks to build and can hurt performance + mobile experience.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="section" style="margin-top:20px; padding:16px; background:rgba(0,0,0,0.03); border-radius:12px;">
+  <p class="subtitle" style="font-size:12px;">The current site has zero animations. Even option A would be a massive upgrade. I recommend B — it delivers the "next level" feel without the implementation overhead of C.</p>
+</div>

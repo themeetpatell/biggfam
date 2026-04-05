@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Run DB migrations against Neon.
+ * Run DB migrations against Supabase.
  * Usage: node db/migrate.js
  * Requires: DATABASE_URL in .env.local
  */
@@ -11,20 +11,40 @@ import { config } from 'dotenv'
 
 config({ path: '.env.local' })
 
-import { neon } from '@neondatabase/serverless'
+import pg from 'pg'
+const { Client } = pg
 
 const __dir = dirname(fileURLToPath(import.meta.url))
 
 async function migrate() {
-  if (!process.env.DATABASE_URL) {
-    console.error('❌  DATABASE_URL not set — check .env.local')
+  // Support both full DATABASE_URL and split env vars
+  const connectionConfig = process.env.DATABASE_URL
+    ? {
+        connectionString: process.env.DATABASE_URL,
+        ssl: { rejectUnauthorized: false },
+      }
+    : {
+        host: process.env.DB_HOST,
+        port: Number(process.env.DB_PORT ?? 5432),
+        database: process.env.DB_NAME ?? 'postgres',
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        ssl: { rejectUnauthorized: false },
+      }
+
+  const hasConnection = process.env.DATABASE_URL || process.env.DB_HOST
+  if (!hasConnection) {
+    console.error('❌  DATABASE_URL (or DB_HOST/DB_USER/DB_PASSWORD) not set — check .env.local')
     process.exit(1)
   }
 
-  const sql = neon(process.env.DATABASE_URL)
+  const client = new Client(connectionConfig)
+  await client.connect()
+  console.log('✅  Connected to Supabase')
+
   const schema = readFileSync(join(__dir, 'schema.sql'), 'utf8')
 
-  // Split into individual statements (Neon doesn't support multi-statement queries)
+  // Split into individual statements
   const statements = schema
     .split(';')
     .map(s =>
@@ -39,13 +59,15 @@ async function migrate() {
   let done = 0
   try {
     for (const stmt of statements) {
-      await sql.query(stmt)
+      await client.query(stmt)
       done++
     }
     console.log(`✅  Schema applied — ${done} statements run successfully`)
   } catch (err) {
     console.error(`❌  Migration failed on statement ${done + 1}:`, err.message)
     process.exit(1)
+  } finally {
+    await client.end()
   }
 }
 

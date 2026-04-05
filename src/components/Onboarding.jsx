@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useAuth } from '@clerk/react'
+import { useAuth, useClerk } from '@clerk/react'
 import { useFamily } from '../contexts/FamilyContext.jsx'
 import { families as familiesApi } from '../lib/api.js'
 
@@ -11,6 +11,7 @@ export default function Onboarding() {
   const [error, setError] = useState('')
   const [inviteToken, setInviteToken] = useState(null)
   const { getToken } = useAuth()
+  const { signOut } = useClerk()
   const { refetch } = useFamily()
 
   async function handleCreate() {
@@ -120,6 +121,10 @@ export default function Onboarding() {
           style={{ ...primaryBtnStyle, opacity: creating || !familyName.trim() ? 0.5 : 1 }}
         >
           {creating ? 'Creating…' : 'Create My Family →'}
+        </button>
+
+        <button onClick={() => signOut()} style={{ marginTop: '16px', background: 'none', border: 'none', color: '#999', fontSize: '13px', cursor: 'pointer', width: '100%' }}>
+          Sign out
         </button>
       </div>
     </div>
