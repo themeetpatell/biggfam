@@ -1,6 +1,14 @@
 import { query, queryOne } from './_lib/db.js'
 import { requireAuth, requireFamilyMember } from './_lib/auth.js'
 
+const VALID_POST_TYPES = ['announcement', 'task', 'grocery', 'reminder']
+
+function validateRequired(val, name) {
+  if (!val || (typeof val === 'string' && !val.trim())) {
+    return `${name} is required`
+  }
+}
+
 export default async function handler(req, res) {
   res.setHeader('Content-Type', 'application/json')
   const userId = await requireAuth(req, res)
@@ -25,13 +33,28 @@ export default async function handler(req, res) {
 
     if (req.method === 'POST') {
       const { family_id, post_type, title, body, pinned, due_date, assigned_to } = req.body
-      if (!family_id || !title) return res.status(400).json({ error: 'family_id and title required' })
+
+      const titleErr = validateRequired(title, 'title')
+      if (titleErr) return res.status(400).json({ error: titleErr })
+      if (title.trim().length > 200) return res.status(400).json({ error: 'title must be 200 characters or fewer' })
+
+      if (!family_id) return res.status(400).json({ error: 'family_id is required' })
+
+      const resolvedType = post_type ?? 'announcement'
+      if (!VALID_POST_TYPES.includes(resolvedType)) {
+        return res.status(400).json({ error: `post_type must be one of: ${VALID_POST_TYPES.join(', ')}` })
+      }
+
+      if (due_date && isNaN(Date.parse(due_date))) {
+        return res.status(400).json({ error: 'due_date must be a valid date' })
+      }
+
       if (!await requireFamilyMember(req, res, family_id, userId)) return
 
       const post = await queryOne(
         `INSERT INTO bulletin_posts (family_id, author_id, post_type, title, body, pinned, due_date, assigned_to)
          VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`,
-        [family_id, userId, post_type ?? 'announcement', title,
+        [family_id, userId, resolvedType, title.trim(),
          body ?? null, pinned ?? false, due_date ?? null, assigned_to ?? null]
       )
       return res.status(201).json({ post })
