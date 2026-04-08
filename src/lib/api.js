@@ -4,9 +4,30 @@
 
 const BASE = '/api'
 
+/**
+ * Retry wrapper for GET requests that fail with network errors.
+ * Retries once after 1000ms on fetch errors (not HTTP error responses).
+ */
+async function fetchWithRetry(url, options = {}) {
+  try {
+    return await fetch(url, options)
+  } catch (error) {
+    // Only retry on network errors for GET requests
+    if (options.method && options.method !== 'GET') {
+      throw error
+    }
+    if (!options.method) {
+      // Default method is GET, retry after 1000ms
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+      return fetch(url, options)
+    }
+    throw error
+  }
+}
+
 async function req(path, options = {}) {
   const { token, ...rest } = options
-  const res = await fetch(`${BASE}${path}`, {
+  const res = await fetchWithRetry(`${BASE}${path}`, {
     headers: {
       'Content-Type': 'application/json',
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
