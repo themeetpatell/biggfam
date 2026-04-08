@@ -1,6 +1,14 @@
 import { query, queryOne } from './_lib/db.js'
 import { requireAuth, requireFamilyMember } from './_lib/auth.js'
 
+const VALID_EVENT_TYPES = ['Festival', 'Medical', 'School', 'EMI', 'Birthday', 'General']
+
+function validateRequired(val, name) {
+  if (!val || (typeof val === 'string' && !val.trim())) {
+    return `${name} is required`
+  }
+}
+
 export default async function handler(req, res) {
   res.setHeader('Content-Type', 'application/json')
   const userId = await requireAuth(req, res)
@@ -27,14 +35,29 @@ export default async function handler(req, res) {
 
     if (req.method === 'POST') {
       const { family_id, title, description, event_type, start_time, end_time, all_day, location, reminder_min } = req.body
-      if (!family_id || !title || !start_time) return res.status(400).json({ error: 'family_id, title, start_time required' })
+
+      const titleErr = validateRequired(title, 'title')
+      if (titleErr) return res.status(400).json({ error: titleErr })
+      if (title.trim().length > 200) return res.status(400).json({ error: 'title must be 200 characters or fewer' })
+
+      if (!family_id) return res.status(400).json({ error: 'family_id is required' })
+
+      const startTimeErr = validateRequired(start_time, 'start_time')
+      if (startTimeErr) return res.status(400).json({ error: startTimeErr })
+      if (isNaN(Date.parse(start_time))) return res.status(400).json({ error: 'start_time must be a valid ISO date' })
+
+      const resolvedType = event_type ?? 'General'
+      if (!VALID_EVENT_TYPES.includes(resolvedType)) {
+        return res.status(400).json({ error: `event_type must be one of: ${VALID_EVENT_TYPES.join(', ')}` })
+      }
+
       if (!await requireFamilyMember(req, res, family_id, userId)) return
 
       const event = await queryOne(
         `INSERT INTO calendar_events
            (family_id, created_by, title, description, event_type, start_time, end_time, all_day, location, reminder_min)
          VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *`,
-        [family_id, userId, title, description ?? null, event_type ?? 'general',
+        [family_id, userId, title.trim(), description ?? null, resolvedType,
          start_time, end_time ?? null, all_day ?? false, location ?? null, reminder_min ?? 60]
       )
       return res.status(201).json({ event })

@@ -1,6 +1,12 @@
 import { query, queryOne } from './_lib/db.js'
 import { requireAuth, requireFamilyMember } from './_lib/auth.js'
 
+function validateRequired(val, name) {
+  if (!val || (typeof val === 'string' && !val.trim())) {
+    return `${name} is required`
+  }
+}
+
 export default async function handler(req, res) {
   res.setHeader('Content-Type', 'application/json')
   const userId = await requireAuth(req, res)
@@ -35,13 +41,22 @@ export default async function handler(req, res) {
 
     if (req.method === 'POST') {
       const { family_id, owner_id, doc_type, title, document_url, expiry_date, notes } = req.body
-      if (!family_id || !title || !document_url) return res.status(400).json({ error: 'family_id, title, document_url required' })
+
+      if (!family_id) return res.status(400).json({ error: 'family_id is required' })
+
+      const docTypeErr = validateRequired(doc_type, 'doc_type')
+      if (docTypeErr) return res.status(400).json({ error: docTypeErr })
+
+      if (document_url && !document_url.startsWith('http')) {
+        return res.status(400).json({ error: 'document_url must start with http' })
+      }
+
       if (!await requireFamilyMember(req, res, family_id, userId)) return
 
       const doc = await queryOne(
         `INSERT INTO documents (family_id, owner_id, doc_type, title, document_url, expiry_date, notes)
          VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *`,
-        [family_id, owner_id ?? userId, doc_type ?? 'other', title, document_url, expiry_date ?? null, notes ?? null]
+        [family_id, owner_id ?? userId, doc_type, title, document_url ?? null, expiry_date ?? null, notes ?? null]
       )
       return res.status(201).json({ document: doc })
     }
